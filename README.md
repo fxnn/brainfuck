@@ -11,3 +11,7 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 
 * Brainfuck programs preprocessed by context free / context sensitive grammars
 * Brainfuck programs where tape and program source are identical
+
+## License
+
+Licensed under MIT, see for [LICENSE](LICENSE) file.
