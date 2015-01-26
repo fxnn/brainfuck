@@ -3,9 +3,9 @@ My personal playground for [Brainfuck](http://en.wikipedia.org/Brainfuck) interp
 
 Backed by a set of common interfaces, this Brainfuck interpreter is made to independently exchange implementations of all major components, especially
 
-* Tape, see package `de.fxnn.brainfuck.tape`
-* Instruction Set and Interpreter, see package `de.fxnn.brainfuck.interpreter`
-* Program source, see package `de.fxnn.brainfuck.program`
+* Tape (cf. `de.fxnn.brainfuck.tape`)
+* Instruction Set and Interpreter (cf. `de.fxnn.brainfuck.interpreter`)
+* Program source (cf. `de.fxnn.brainfuck.program`)
 
 ## Ideas
 
