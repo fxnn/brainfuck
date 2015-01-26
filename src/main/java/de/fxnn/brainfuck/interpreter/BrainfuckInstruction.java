@@ -2,7 +2,6 @@ package de.fxnn.brainfuck.interpreter;
 
 import java.util.Optional;
 
-import de.fxnn.brainfuck.InterpreterException;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package de.fxnn.brainfuck;
+package de.fxnn.brainfuck.interpreter;
 
 public class InterpreterException extends Exception {
 

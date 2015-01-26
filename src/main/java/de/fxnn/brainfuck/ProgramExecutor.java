@@ -1,5 +1,7 @@
 package de.fxnn.brainfuck;
 
+import de.fxnn.brainfuck.interpreter.Interpreter;
+import de.fxnn.brainfuck.interpreter.InterpreterException;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.program.Program;
 import lombok.AllArgsConstructor;

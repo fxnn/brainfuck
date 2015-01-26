@@ -1,6 +1,5 @@
 package de.fxnn.brainfuck.interpreter;
 
-import de.fxnn.brainfuck.InterpreterException;
 import de.fxnn.brainfuck.program.InstructionPointer;
 
 public interface BrainfuckInstructionSet {

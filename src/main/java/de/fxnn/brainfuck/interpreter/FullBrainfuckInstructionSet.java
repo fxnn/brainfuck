@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Deque;
 
-import de.fxnn.brainfuck.InterpreterException;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.tape.OutOfTapeBoundsException;
 import de.fxnn.brainfuck.tape.Tape;
