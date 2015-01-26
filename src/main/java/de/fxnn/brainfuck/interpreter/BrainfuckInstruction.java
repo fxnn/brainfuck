@@ -12,66 +12,69 @@ public enum BrainfuckInstruction {
 
   MOVE_FORWARD('>') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.moveForward(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::moveForward;
     }
+
   },
   MOVE_BACKWARD('<') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.moveBackward(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::moveBackward;
     }
+
   },
   INCREMENT('+') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.increment(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::increment;
     }
+
   },
   DECREMENT('-') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.decrement(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::decrement;
     }
+
   },
   OUTPUT('.') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.output(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::output;
     }
+
   },
   INPUT(',') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.input(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::input;
     }
+
   },
   START_OF_LOOP('[') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.startOfLoop(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::startOfLoop;
     }
+
   },
   END_OF_LOOP(']') {
     @Override
-    public InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-        throws InterpreterException {
-      return instructionSet.endOfLoop(instructionPointer);
+    public Instruction onInstructionSet(BrainfuckInstructionSet instructionSet) {
+      return instructionSet::endOfLoop;
     }
   };
 
   @Getter
   private final char instructionCharacter;
 
-  public abstract InstructionPointer run(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
-      throws InterpreterException;
+  public InstructionPointer step(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
+      throws InterpreterException {
+    return onInstructionSet(instructionSet).step(instructionPointer);
+  }
+
+  public abstract Instruction onInstructionSet(BrainfuckInstructionSet instructionSet);
 
   public static Optional<BrainfuckInstruction> fromCharacter(char instructionCharacter) {
     for (BrainfuckInstruction instruction : values()) {

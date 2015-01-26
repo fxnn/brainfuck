@@ -33,10 +33,10 @@ public class BrainfuckInterpreter implements Interpreter {
 
     if (instruction.isPresent()) {
       if (loopModeStack.isEmpty() || LoopMode.EXECUTED.equals(loopModeStack.getLast())) {
-        return instruction.get().run(instructionPointer, fullBrainfuckInstructionSet);
+        return instruction.get().step(instructionPointer, fullBrainfuckInstructionSet);
       }
 
-      return instruction.get().run(instructionPointer, loopHandlingBrainfuckInstructionSet);
+      return instruction.get().step(instructionPointer, loopHandlingBrainfuckInstructionSet);
     }
 
     return instructionPointer.forward();
