@@ -1,5 +1,7 @@
 package de.fxnn.brainfuck;
 
+import de.fxnn.brainfuck.program.InstructionPointer;
+import de.fxnn.brainfuck.program.Program;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -19,7 +21,7 @@ public class ProgramExecutor implements Runnable {
       }
 
     } catch (InterpreterException ex) {
-      throw new RuntimeException(ex.getMessage(), ex.getCause());
+      throw new ProgramExecutionException("Error while interpreting the Brainfuck program [" + program + "]", ex);
     }
 
   }

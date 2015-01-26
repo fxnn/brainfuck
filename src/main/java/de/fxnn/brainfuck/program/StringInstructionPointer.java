@@ -1,12 +1,11 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.program;
 
-import de.fxnn.brainfuck.InstructionPointer;
 import lombok.AllArgsConstructor;
 
-import static de.fxnn.brainfuck.InvalidInstructionPointer.invalidInstructionPointer;
+import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
 @AllArgsConstructor
-public class StringSourcedInstructionPointer implements InstructionPointer {
+public class StringInstructionPointer implements InstructionPointer {
 
   String program;
 
@@ -15,7 +14,7 @@ public class StringSourcedInstructionPointer implements InstructionPointer {
   @Override
   public InstructionPointer forward() {
     if (program.length() > programIndex + 1) {
-      return new StringSourcedInstructionPointer(program, programIndex + 1);
+      return new StringInstructionPointer(program, programIndex + 1);
     }
 
     return invalidInstructionPointer();

@@ -1,6 +1,4 @@
-package de.fxnn.brainfuck;
-
-import java.util.Iterator;
+package de.fxnn.brainfuck.program;
 
 public interface Program {
 

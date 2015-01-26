@@ -1,4 +1,4 @@
-package de.fxnn.brainfuck;
+package de.fxnn.brainfuck.tape;
 
 public class OutOfTapeBoundsException extends Exception {
 

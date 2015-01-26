@@ -1,10 +1,8 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.tape;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-
-import javax.annotation.Nonnull;
 
 public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
 

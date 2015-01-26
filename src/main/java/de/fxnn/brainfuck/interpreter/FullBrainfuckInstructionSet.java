@@ -1,14 +1,14 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.interpreter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Deque;
 
-import de.fxnn.brainfuck.InstructionPointer;
 import de.fxnn.brainfuck.InterpreterException;
-import de.fxnn.brainfuck.OutOfTapeBoundsException;
-import de.fxnn.brainfuck.Tape;
+import de.fxnn.brainfuck.program.InstructionPointer;
+import de.fxnn.brainfuck.tape.OutOfTapeBoundsException;
+import de.fxnn.brainfuck.tape.Tape;
 
 public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructionSet {
 
@@ -17,7 +17,7 @@ public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructio
   protected final BufferedWriter output;
 
   public FullBrainfuckInstructionSet(Deque<InstructionPointer> instructionPointerStack,
-      Deque<BrainfuckLoopMode> loopModeStack, Tape<?> tape, BufferedReader input, BufferedWriter output) {
+      Deque<LoopMode> loopModeStack, Tape<?> tape, BufferedReader input, BufferedWriter output) {
     super(instructionPointerStack, loopModeStack, tape);
     this.input = input;
     this.output = output;

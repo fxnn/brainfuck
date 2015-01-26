@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import de.fxnn.brainfuck.simple.BrainfuckInterpreter;
-import de.fxnn.brainfuck.simple.InfiniteSignedIntegerTape;
-import de.fxnn.brainfuck.simple.StringSourcedProgram;
+import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter;
+import de.fxnn.brainfuck.program.Program;
+import de.fxnn.brainfuck.program.StringProgram;
+import de.fxnn.brainfuck.tape.InfiniteSignedIntegerTape;
+import de.fxnn.brainfuck.tape.Tape;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,7 +97,7 @@ public class ProgramExecutorTest {
   }
 
   protected void givenProgram(String brainfuckProgram) {
-    program = new StringSourcedProgram(brainfuckProgram);
+    program = new StringProgram(brainfuckProgram);
   }
 
 }

@@ -1,4 +1,4 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.interpreter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,16 +6,16 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
 
-import de.fxnn.brainfuck.InstructionPointer;
 import de.fxnn.brainfuck.Interpreter;
 import de.fxnn.brainfuck.InterpreterException;
-import de.fxnn.brainfuck.Tape;
+import de.fxnn.brainfuck.program.InstructionPointer;
+import de.fxnn.brainfuck.tape.Tape;
 
 public class BrainfuckInterpreter implements Interpreter {
 
   final Deque<InstructionPointer> instructionPointerStack;
 
-  final Deque<BrainfuckLoopMode> loopModeStack;
+  final Deque<LoopMode> loopModeStack;
 
   final FullBrainfuckInstructionSet fullBrainfuckInstructionSet;
 
@@ -34,7 +34,7 @@ public class BrainfuckInterpreter implements Interpreter {
         .fromCharacter(instructionPointer.getInstruction());
 
     if (instruction.isPresent()) {
-      if (loopModeStack.isEmpty() || BrainfuckLoopMode.EXECUTED.equals(loopModeStack.getLast())) {
+      if (loopModeStack.isEmpty() || LoopMode.EXECUTED.equals(loopModeStack.getLast())) {
         return instruction.get().run(instructionPointer, fullBrainfuckInstructionSet);
       }
 

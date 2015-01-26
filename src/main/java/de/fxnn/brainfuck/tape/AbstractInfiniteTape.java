@@ -1,13 +1,8 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.tape;
 
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
-
-import de.fxnn.brainfuck.OutOfTapeBoundsException;
-import de.fxnn.brainfuck.Tape;
-import lombok.AccessLevel;
-import lombok.Getter;
 
 public abstract class AbstractInfiniteTape<T> implements Tape<T> {
 

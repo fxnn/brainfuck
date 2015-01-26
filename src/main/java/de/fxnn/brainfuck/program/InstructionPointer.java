@@ -1,6 +1,6 @@
-package de.fxnn.brainfuck;
+package de.fxnn.brainfuck.program;
 
-import static de.fxnn.brainfuck.InvalidInstructionPointer.invalidInstructionPointer;
+import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
 public interface InstructionPointer {
 

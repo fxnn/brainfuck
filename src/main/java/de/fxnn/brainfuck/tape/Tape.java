@@ -1,13 +1,8 @@
-package de.fxnn.brainfuck;
+package de.fxnn.brainfuck.tape;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ListIterator;
-
-import javax.annotation.Nonnull;
 
 public interface Tape<T> {
 

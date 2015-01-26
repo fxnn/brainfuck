@@ -1,4 +1,4 @@
-package de.fxnn.brainfuck;
+package de.fxnn.brainfuck.program;
 
 public class InvalidInstructionPointer implements InstructionPointer {
 

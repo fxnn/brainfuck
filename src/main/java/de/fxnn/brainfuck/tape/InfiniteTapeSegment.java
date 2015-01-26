@@ -1,11 +1,9 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.tape;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
 
-import de.fxnn.brainfuck.OutOfTapeBoundsException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,8 +44,7 @@ public class InfiniteTapeSegment<T> {
 
   public void moveForward() throws OutOfTapeBoundsException {
     if (position + 1 >= list.size()) {
-      throw new OutOfTapeBoundsException(
-          "Would move beyond end of tape segment [newIndex=" + (position + 1) + "]!");
+      throw new OutOfTapeBoundsException("Would move beyond end of tape segment [newIndex=" + (position + 1) + "]!");
     }
 
     position++;
@@ -55,8 +52,7 @@ public class InfiniteTapeSegment<T> {
 
   public void moveBackward() throws OutOfTapeBoundsException {
     if (position - 1 < 0) {
-      throw new OutOfTapeBoundsException(
-          "Would move before start of tape segment [newIndex=" + (position - 1) + "]");
+      throw new OutOfTapeBoundsException("Would move before start of tape segment [newIndex=" + (position - 1) + "]");
     }
 
     position--;

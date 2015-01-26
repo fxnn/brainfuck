@@ -1,8 +1,4 @@
-package de.fxnn.brainfuck.simple;
-
-import de.fxnn.brainfuck.InstructionPointer;
-import de.fxnn.brainfuck.InvalidInstructionPointer;
-import de.fxnn.brainfuck.Program;
+package de.fxnn.brainfuck.program;
 
 public class EmptyProgram implements Program {
 

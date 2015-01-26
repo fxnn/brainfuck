@@ -1,9 +1,9 @@
-package de.fxnn.brainfuck.simple;
+package de.fxnn.brainfuck.interpreter;
 
 import java.util.Deque;
 
-import de.fxnn.brainfuck.InstructionPointer;
-import de.fxnn.brainfuck.Tape;
+import de.fxnn.brainfuck.program.InstructionPointer;
+import de.fxnn.brainfuck.tape.Tape;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -14,7 +14,7 @@ public class LoopHandlingBrainfuckInstructionSetTest {
 
   Deque<InstructionPointer> instructionPointerStack;
 
-  Deque<BrainfuckLoopMode> loopModeStack;
+  Deque<LoopMode> loopModeStack;
 
   Tape<Object> tape;
 
@@ -112,7 +112,7 @@ public class LoopHandlingBrainfuckInstructionSetTest {
     sut.startOfLoop(instructionPointer);
 
     // NOTE, that this class has subclasses and may NOT use them in a zero-value-situation
-    Mockito.verify(loopModeStack).addLast(BrainfuckLoopMode.SKIPPED);
+    Mockito.verify(loopModeStack).addLast(LoopMode.SKIPPED);
 
   }
 
@@ -123,7 +123,7 @@ public class LoopHandlingBrainfuckInstructionSetTest {
 
     sut.startOfLoop(instructionPointer);
 
-    Mockito.verify(loopModeStack).addLast(BrainfuckLoopMode.EXECUTED);
+    Mockito.verify(loopModeStack).addLast(LoopMode.EXECUTED);
 
   }
 
