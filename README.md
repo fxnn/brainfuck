@@ -7,6 +7,8 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 * Instruction Set and Interpreter (cf. `de.fxnn.brainfuck.interpreter`)
 * Program source (cf. `de.fxnn.brainfuck.program`)
 
+[![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
+
 ## Ideas
 
 * Brainfuck programs preprocessed by context free / context sensitive grammars
