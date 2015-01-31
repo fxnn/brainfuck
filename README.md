@@ -44,11 +44,6 @@ Runnable programExecutor = new ProgramExecutor(
 programExecutor.run();
 ```
 
-## Ideas
-
-* Brainfuck programs preprocessed by context free / context sensitive grammars
-* Brainfuck programs where tape and program source are identical
-
 ## License
 
 Licensed under MIT, see for [LICENSE](LICENSE) file.
