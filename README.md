@@ -9,6 +9,23 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 
 [![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
 
+## Usage
+
+    $ mvn package
+    $ java -jar target\brainfuck-1.0-SNAPSHOT-jar-with-dependencies.jar
+    
+    usage: java -jar brainfuck.jar [options] program1 [program2 [...]]
+    http://github.com/fxnn/brainfuck
+     -a,--progarg             Give brainfuck source as commandline argument.
+     -h,--help                Display usage information.
+     -i,--infile <PATH>       Read input from file
+        --inenc <CHARSET>     Use given encoding for program input
+     -o,--outfile <PATH>      Write output to file
+        --outenc <CHARSET>    Use given encoding for program output
+        --progenc <CHARSET>   Use given encoding for programs
+    To read a program from stdin, use "-" as program name.
+
+
 ## Ideas
 
 * Brainfuck programs preprocessed by context free / context sensitive grammars
