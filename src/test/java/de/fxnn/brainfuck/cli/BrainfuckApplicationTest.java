@@ -59,7 +59,6 @@ public class BrainfuckApplicationTest {
 
     whenSutIsInvoked();
 
-    assertThat(errStreamByLines(), hasItem("No arguments given."));
     assertThat(errStreamByLines(), hasItem(containsString("usage:")));
 
     assertThat(outStreamAsString(), isEmptyString());
