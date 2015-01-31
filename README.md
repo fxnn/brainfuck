@@ -17,6 +17,7 @@ From commandline:
 $ git clone https://github.com/fxnn/brainfuck
 $ mvn package
 $ java -jar target\brainfuck-1.0-SNAPSHOT-jar-with-dependencies.jar
+
 usage: java -jar brainfuck.jar [options] program1 [program2 [...]]
 http://github.com/fxnn/brainfuck
  -a,--progarg             Give brainfuck source as commandline argument.
