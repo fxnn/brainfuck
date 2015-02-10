@@ -21,12 +21,12 @@ $ java -jar target\brainfuck-1.0-SNAPSHOT-jar-with-dependencies.jar
 usage: java -jar brainfuck.jar [options] program1 [program2 [...]]
 http://github.com/fxnn/brainfuck
  -a,--progarg             Give brainfuck source as commandline argument.
+ -e,--eof <0|-1|TERM>     Controls how to behave after reading an EOF
  -h,--help                Display usage information.
  -i,--infile <PATH>       Read input from file
-    --inenc <CHARSET>     Use given encoding for program input
  -o,--outfile <PATH>      Write output to file
-    --outenc <CHARSET>    Use given encoding for program output
     --progenc <CHARSET>   Use given encoding for programs
+    --tapeenc <CHARSET>   Use given encoding for tape, input and output
 To read a program from stdin, use "-" as program name.
 ```
 
@@ -36,9 +36,9 @@ Or from your JVM program:
 Runnable programExecutor = new ProgramExecutor(
     new StringProgram(",[->+<]>."),
     new BrainfuckInterpreter(
-        new InfiniteSignedIntegerTape(),
-        bufferedInputReader,
-        bufferedOutputWriter
+        new InfiniteCharacterTape(Characters.UTF_8, TapeEofBehaviour.READS_ZERO),
+        javaIoDataInput,
+        javaIoDataOutput
     )
 );
 programExecutor.run();
