@@ -36,7 +36,7 @@ Or from your JVM program:
 Runnable programExecutor = new ProgramExecutor(
     new StringProgram(",[->+<]>."),
     new BrainfuckInterpreter(
-        new InfiniteCharacterTape(Characters.UTF_8, TapeEofBehaviour.READS_ZERO),
+        new InfiniteCharacterTape(StandardCharsets.UTF_8, TapeEofBehaviour.READS_ZERO),
         javaIoDataInput,
         javaIoDataOutput
     )
