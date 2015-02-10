@@ -7,7 +7,7 @@ import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstruc
 @Value
 public class StringProgram implements Program {
 
-  String program;
+  private final String program;
 
   @Override
   public InstructionPointer getStartOfProgram() {

@@ -20,6 +20,10 @@ public class ProgramExecutor implements Runnable {
 
       while (!instructionPointer.isEndOfProgram()) {
         instructionPointer = interpreter.step(instructionPointer);
+
+        if (Thread.currentThread().isInterrupted()) {
+          throw new ProgramExecutionException("Program was interrputed: " + program);
+        }
       }
 
     } catch (InterpreterException ex) {
