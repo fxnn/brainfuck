@@ -12,6 +12,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import de.fxnn.brainfuck.ProgramExecutionException;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
@@ -19,6 +20,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
 import static de.fxnn.brainfuck.cli.BrainfuckOptionsFactory.*;
+import static de.fxnn.brainfuck.tape.TapeEofBehaviour.READS_ZERO;
 
 public class BrainfuckApplication implements Runnable {
 
@@ -65,9 +67,9 @@ public class BrainfuckApplication implements Runnable {
         return;
       }
 
-      configuration.setInputCharset(readCharset(commandLine, INPUT_CHARSET));
-      configuration.setOutputCharset(readCharset(commandLine, OUTPUT_CHARSET));
+      configuration.setTapeCharset(readCharset(commandLine, TAPE_CHARSET));
       configuration.setProgramCharset(readCharset(commandLine, PROGRAM_CHARSET));
+      configuration.setEofBehaviour(eofBehaviourFromArgument(commandLine.getOptionValue(EOF_BEHAVIOUR), READS_ZERO));
 
       configuration.setProgramGivenAsArgument(commandLine.hasOption(PROGRAM_GIVEN_AS_ARGUMENT));
 
@@ -81,7 +83,7 @@ public class BrainfuckApplication implements Runnable {
       errWriter.println(e.getMessage());
       displayHelp();
 
-    } catch (ProgramStartupException e) {
+    } catch (ProgramStartupException | ProgramExecutionException e) {
       errWriter.println("ERROR: " + e.getMessage());
 
     } finally {

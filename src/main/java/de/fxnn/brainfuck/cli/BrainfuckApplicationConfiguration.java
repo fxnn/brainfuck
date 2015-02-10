@@ -5,14 +5,13 @@ import java.nio.charset.Charset;
 
 import javax.annotation.Nullable;
 
+import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import lombok.Data;
 
 @Data
 public class BrainfuckApplicationConfiguration {
 
-  private Charset inputCharset;
-
-  private Charset outputCharset;
+  private Charset tapeCharset;
 
   private Charset programCharset;
 
@@ -23,5 +22,7 @@ public class BrainfuckApplicationConfiguration {
 
   @Nullable
   private File outputFile;
+
+  private TapeEofBehaviour eofBehaviour;
 
 }

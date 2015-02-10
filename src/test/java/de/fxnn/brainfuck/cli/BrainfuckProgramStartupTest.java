@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 import com.google.common.io.CharStreams;
 import de.fxnn.brainfuck.ProgramBuilder;
+import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class BrainfuckProgramStartupTest {
     outputStream = new ByteArrayOutputStream();
   }
 
-  @Test
+  @Test(expected = IllegalStateException.class)
   public void testCantReadFromInputWhenProgramIsReadFromInput() throws Exception{
 
     givenDefaultCharsets();
@@ -49,7 +50,7 @@ public class BrainfuckProgramStartupTest {
 
     whenSutIsInvoked("-");
 
-    Assert.assertEquals(AT_EOF, programBuilder.getInputReader().read());
+    programBuilder.getInput().readInt();
 
   }
 
@@ -57,12 +58,12 @@ public class BrainfuckProgramStartupTest {
   public void testCanReadFromInputWhenProgramIsReadFromArguments() throws Exception{
 
     givenDefaultCharsets();
-    givenInputString("123");
+    givenInputString("1234");
     configuration.setProgramGivenAsArgument(true);
 
     whenSutIsInvoked("-");
 
-    Assert.assertThat(programBuilder.getInputReader().read(), greaterThan(AT_EOF));
+    Assert.assertThat(programBuilder.getInput().readInt(), greaterThan(AT_EOF));
 
   }
 
@@ -96,7 +97,7 @@ public class BrainfuckProgramStartupTest {
     whenProgramIsExecuted();
     whenSutIsClosed();
 
-    Assert.assertThat(fileContents(file, configuration.getOutputCharset()), equalTo("87"));
+    Assert.assertThat(fileContents(file, configuration.getTapeCharset()), equalTo("87"));
 
   }
 
@@ -106,7 +107,7 @@ public class BrainfuckProgramStartupTest {
     File file = testFile("in");
 
     givenDefaultCharsets();
-    givenFileContents(file, configuration.getInputCharset(), "42");
+    givenFileContents(file, configuration.getTapeCharset(), "42");
     configuration.setProgramGivenAsArgument(true);
     configuration.setInputFile(file);
 
@@ -153,13 +154,14 @@ public class BrainfuckProgramStartupTest {
   }
 
   protected void givenInputString(String input) {
-    inputStream = new ByteArrayInputStream(input.getBytes(configuration.getInputCharset()));
+    byte[] bytes = input.getBytes(configuration.getTapeCharset());
+    inputStream = new ByteArrayInputStream(bytes);
   }
 
   protected void givenDefaultCharsets() {
-    configuration.setProgramCharset(Charset.defaultCharset());
-    configuration.setInputCharset(Charset.defaultCharset());
-    configuration.setOutputCharset(Charset.defaultCharset());
+    configuration.setEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
+    configuration.setProgramCharset(Charset.forName("UTF-8"));
+    configuration.setTapeCharset(Charset.forName("UTF-8"));
   }
 
   protected File testFile(String fileName) throws IOException {

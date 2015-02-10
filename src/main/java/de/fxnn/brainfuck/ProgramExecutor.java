@@ -27,7 +27,8 @@ public class ProgramExecutor implements Runnable {
       }
 
     } catch (InterpreterException ex) {
-      throw new ProgramExecutionException("Error while interpreting the Brainfuck program [" + program + "]", ex);
+      throw new ProgramExecutionException(
+          "Error [" + ex.getMessage() + "] while interpreting the Brainfuck program [" + program + "]", ex);
     }
 
   }

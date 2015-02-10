@@ -1,22 +1,22 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.util.Deque;
 
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.tape.OutOfTapeBoundsException;
 import de.fxnn.brainfuck.tape.Tape;
+import de.fxnn.brainfuck.tape.TapeIOException;
 
 public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructionSet {
 
-  protected final BufferedReader input;
+  protected final DataInput input;
 
-  protected final BufferedWriter output;
+  protected final DataOutput output;
 
   public FullBrainfuckInstructionSet(Deque<InstructionPointer> instructionPointerStack,
-      Deque<LoopMode> loopModeStack, Tape<?> tape, BufferedReader input, BufferedWriter output) {
+      Deque<LoopMode> loopModeStack, Tape<?> tape, DataInput input, DataOutput output) {
     super(instructionPointerStack, loopModeStack, tape);
     this.input = input;
     this.output = output;
@@ -59,7 +59,7 @@ public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructio
     try {
       tape.readTo(output);
       return super.output(instructionPointer);
-    } catch (IOException e) {
+    } catch (TapeIOException e) {
       throw new InterpreterException("Sending tape contents to output failed", e);
     }
   }
@@ -69,7 +69,7 @@ public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructio
     try {
       tape.writeFrom(input);
       return super.input(instructionPointer);
-    } catch (IOException e) {
+    } catch (TapeIOException e) {
       throw new InterpreterException("Reading input to tape failed", e);
     }
   }

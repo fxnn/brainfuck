@@ -1,27 +1,28 @@
 package de.fxnn.brainfuck.tape;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.ByteArrayInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class InfiniteSignedIntegerTapeTest {
 
   InfiniteSignedIntegerTape sut;
 
-  BufferedWriter outputStreamWriter;
+  ByteArrayDataOutput output;
 
-  ByteArrayOutputStream outputStream;
+  DataInput input;
 
   @Before
   public void setUp() {
-    sut = new InfiniteSignedIntegerTape();
-    outputStream = new ByteArrayOutputStream();
-    outputStreamWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+    sut = new InfiniteSignedIntegerTape(TapeEofBehaviour.THROWS);
+    output = ByteStreams.newDataOutput();
+    input = new DataInputStream(new ByteArrayInputStream(new byte[0]));
   }
 
   @Test
@@ -74,39 +75,67 @@ public class InfiniteSignedIntegerTapeTest {
   }
 
   @Test
-  public void testReadInitially() throws Exception {
+  public void testOutputInitially() throws Exception {
 
-    sut.readTo(outputStreamWriter);
-    outputStreamWriter.close();
+    sut.readTo(output);
 
-    Assert.assertEquals(1, outputStream.size());
-    Assert.assertArrayEquals(new byte[]{0}, outputStream.toByteArray());
+    Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, output.toByteArray());
 
   }
 
   @Test
-  public void testReadAfterIncrement() throws Exception {
+  public void testOutputAfterIncrement() throws Exception {
 
     sut.increment();
-    sut.readTo(outputStreamWriter);
-    outputStreamWriter.close();
+    sut.readTo(output);
 
-    Assert.assertEquals(1, outputStream.size());
-    Assert.assertArrayEquals(new byte[]{1}, outputStream.toByteArray());
+    Assert.assertArrayEquals(new byte[]{0, 0, 0, 1}, output.toByteArray());
 
   }
 
   @Test
-  @Ignore
-  public void testReadAfterDecrement() throws Exception {
+  public void testOutputAfterDecrement() throws Exception {
 
     sut.decrement();
-    sut.readTo(outputStreamWriter);
-    outputStreamWriter.close();
+    sut.readTo(output);
 
-    // TODO: Damit dieser Test funktioniert, müssen Tapes klar auf Zeichenklassen (Unicode, ASCII etc.) basieren
-    Assert.assertArrayEquals(new byte[]{/* ?? */}, outputStream.toByteArray());
+    Assert.assertArrayEquals(new byte[]{-1, -1, -1, -1}, output.toByteArray());
 
+  }
+
+  @Test(expected = TapeIOException.class)
+  public void testInputAfterEof_throws() throws Exception {
+
+    givenEofBehaviour(TapeEofBehaviour.THROWS);
+
+    sut.writeFrom(input);
+
+  }
+
+  @Test
+  public void testInputAfterEof_writesZero() throws Exception {
+
+    givenEofBehaviour(TapeEofBehaviour.READS_ZERO);
+
+    sut.writeFrom(input);
+
+    Assert.assertEquals(0, (int) sut.read());
+
+  }
+
+  @Test
+  public void testInputAfterEof_writesMinusOne() throws Exception {
+
+    givenEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
+
+    sut.writeFrom(input);
+
+    Assert.assertEquals(-1, (int) sut.read());
+
+  }
+
+  protected void givenEofBehaviour(TapeEofBehaviour eofBehaviour) {
+    sut = new InfiniteSignedIntegerTape(eofBehaviour);
   }
 
 }

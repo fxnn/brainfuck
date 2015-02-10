@@ -1,7 +1,7 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class BrainfuckInterpreter implements Interpreter {
 
   final LoopHandlingBrainfuckInstructionSet loopHandlingBrainfuckInstructionSet;
 
-  public BrainfuckInterpreter(Tape<?> tape, BufferedReader input, BufferedWriter output) {
+  public BrainfuckInterpreter(Tape<?> tape, DataInput input, DataOutput output) {
     this.instructionPointerStack = new ArrayDeque<>();
     this.loopModeStack = new ArrayDeque<>();
     fullBrainfuckInstructionSet = new FullBrainfuckInstructionSet(instructionPointerStack, loopModeStack, tape, input, output);

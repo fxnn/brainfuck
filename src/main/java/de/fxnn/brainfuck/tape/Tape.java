@@ -1,8 +1,7 @@
 package de.fxnn.brainfuck.tape;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.DataInput;
+import java.io.DataOutput;
 
 public interface Tape<T> {
 
@@ -14,9 +13,9 @@ public interface Tape<T> {
 
   void decrement();
 
-  void readTo(BufferedWriter writer) throws IOException;
+  void readTo(DataOutput output) throws TapeIOException;
 
-  void writeFrom(BufferedReader reader) throws IOException;
+  void writeFrom(DataInput input) throws TapeIOException;
 
   boolean isZero();
 

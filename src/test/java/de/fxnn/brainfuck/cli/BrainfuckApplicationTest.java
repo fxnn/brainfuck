@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Splitter;
+import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -87,30 +88,15 @@ public class BrainfuckApplicationTest {
   }
 
   @Test
-  public void testInputCharset() throws Exception {
+  public void testTapeCharset() throws Exception {
 
     String charsetName = getNonDefaultCharsetName();
-    givenArgument("--inenc=" + charsetName);
+    givenArgument("--tapeenc=" + charsetName);
     givenArgument("some program");
 
     whenSutIsInvoked();
 
-    Assert.assertEquals(charsetName, brainfuckApplicationConfiguration.getInputCharset().name());
-
-    assertThat(errStreamAsString(), isEmptyString());
-
-  }
-
-  @Test
-  public void testOutputCharset() throws Exception {
-
-    String charsetName = getNonDefaultCharsetName();
-    givenArgument("--outenc=" + charsetName);
-    givenArgument("some program");
-
-    whenSutIsInvoked();
-
-    Assert.assertEquals(charsetName, brainfuckApplicationConfiguration.getOutputCharset().name());
+    Assert.assertEquals(charsetName, brainfuckApplicationConfiguration.getTapeCharset().name());
 
     assertThat(errStreamAsString(), isEmptyString());
 
@@ -232,6 +218,131 @@ public class BrainfuckApplicationTest {
     }
 
     return Charset.forName("UTF-8").name();
+  }
+
+  @Test
+  public void testEofBehaviour_default() throws Exception {
+
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.READS_ZERO));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_unknownValueShort() throws Exception {
+
+    givenArgument("-e");
+    givenArgument("x");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    assertThat(errStreamAsString(), containsString(BrainfuckOptionsFactory.EOF_BEHAVIOUR));
+
+  }
+
+  @Test
+  public void testEofBehaviour_unknownValueLong() throws Exception {
+
+    givenArgument("--eof=x");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    assertThat(errStreamAsString(), containsString(BrainfuckOptionsFactory.EOF_BEHAVIOUR));
+
+  }
+
+  @Test
+  public void testEofBehaviour_zeroShort() throws Exception {
+
+    givenArgument("-e");
+    givenArgument("0");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.READS_ZERO));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_zeroLong() throws Exception {
+
+    givenArgument("--eof=0");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.READS_ZERO));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_minusOneShort() throws Exception {
+
+    givenArgument("-e");
+    givenArgument("-1");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.READS_MINUS_ONE));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_minusOneLong() throws Exception {
+
+    givenArgument("--eof=-1");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.READS_MINUS_ONE));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_throwsShort() throws Exception {
+
+    givenArgument("-e");
+    givenArgument("TERM");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.THROWS));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
+  }
+
+  @Test
+  public void testEofBehaviour_throwsLong() throws Exception {
+
+    givenArgument("--eof=TERM");
+    givenArgument("program");
+
+    whenSutIsInvoked();
+
+    Assert.assertThat(brainfuckApplicationConfiguration.getEofBehaviour(), is(TapeEofBehaviour.THROWS));
+
+    assertThat(errStreamAsString(), isEmptyString());
+
   }
 
   protected void givenArgument(String argumentString) {

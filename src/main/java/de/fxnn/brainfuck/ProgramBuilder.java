@@ -1,7 +1,7 @@
 package de.fxnn.brainfuck;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInput;
+import java.io.DataOutput;
 
 import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter;
 import de.fxnn.brainfuck.program.Program;
@@ -15,9 +15,9 @@ public class ProgramBuilder {
 
   private Tape<?> tape;
 
-  private BufferedReader inputReader;
+  private DataInput input;
 
-  private BufferedWriter outputWriter;
+  private DataOutput output;
 
   public ProgramBuilder withProgram(Program program) {
     this.program = program;
@@ -29,18 +29,18 @@ public class ProgramBuilder {
     return this;
   }
 
-  public ProgramBuilder withInputReader(BufferedReader inputReader) {
-    this.inputReader = inputReader;
+  public ProgramBuilder withInput(DataInput input) {
+    this.input = input;
     return this;
   }
 
-  public ProgramBuilder withOutputWriter(BufferedWriter outputWriter) {
-    this.outputWriter = outputWriter;
+  public ProgramBuilder withOutput(DataOutput output) {
+    this.output = output;
     return this;
   }
 
   public ProgramExecutor buildProgramExecutor() {
-    return new ProgramExecutor(program, new BrainfuckInterpreter(tape, inputReader, outputWriter));
+    return new ProgramExecutor(program, new BrainfuckInterpreter(tape, input, output));
   }
 
 }

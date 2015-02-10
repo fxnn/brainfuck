@@ -1,14 +1,20 @@
 package de.fxnn.brainfuck.tape;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.EOFException;
 import java.io.IOException;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
 
-  static final int DEFAULT_TAPE_SEGMENT_SIZE = 1024;
+  private static final int DEFAULT_TAPE_SEGMENT_SIZE = 1024;
 
-  static final int DEFAULT_VALUE = 0;
+  private static final int DEFAULT_VALUE = 0;
+
+  private final TapeEofBehaviour eofBehaviour;
 
   @Override
   protected InfiniteTapeSegment<Integer> createSegment() {
@@ -26,13 +32,25 @@ public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
   }
 
   @Override
-  public void readTo(BufferedWriter writer) throws IOException {
-    writer.write(read());
+  public void readTo(DataOutput output) throws TapeIOException {
+    try {
+      output.writeInt(read());
+    } catch (IOException ex) {
+      throw new TapeIOException("I/O error while writing from tape to output [" + output + "]: " + ex.getMessage(), ex);
+    }
   }
 
   @Override
-  public void writeFrom(BufferedReader reader) throws IOException {
-    write(reader.read());
+  public void writeFrom(DataInput input) throws TapeIOException {
+    try {
+      write(input.readInt());
+
+    } catch (EOFException ex) {
+      write(eofBehaviour.getEofValue(this, input));
+
+    } catch (IOException ex) {
+      throw new TapeIOException("I/O error while reading from input [" + input + "] to tape: " + ex.getMessage(), ex);
+    }
   }
 
   @Override
