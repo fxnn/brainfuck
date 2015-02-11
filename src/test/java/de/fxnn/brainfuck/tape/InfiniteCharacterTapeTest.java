@@ -39,51 +39,51 @@ public class InfiniteCharacterTapeTest {
   @Test
   public void testIsInitiallyZero() {
 
-    assertTrue(getSut().isZero());
+    assertTrue(sut().isZero());
 
   }
 
   @Test
   public void testValidIncrement() {
 
-    getSut().increment();
+    sut().increment();
 
-    assertThat(getSut().read(), is(1));
-    assertFalse(getSut().isZero());
+    assertThat(sut().read(), is(1));
+    assertFalse(sut().isZero());
 
   }
 
   @Test
   public void testValidDecrement() {
 
-    getSut().write(1);
+    sut().write(1);
 
-    getSut().decrement();
+    sut().decrement();
 
-    assertThat(getSut().read(), is(0));
-    assertTrue(getSut().isZero());
+    assertThat(sut().read(), is(0));
+    assertTrue(sut().isZero());
 
   }
 
   @Test
   public void testOverflowDecrement() {
 
-    getSut().decrement();
+    sut().decrement();
 
-    assertThat(getSut().read(), is(Character.MAX_CODE_POINT));
-    assertFalse(getSut().isZero());
+    assertThat(sut().read(), is(Character.MAX_CODE_POINT));
+    assertFalse(sut().isZero());
 
   }
 
   @Test
   public void testOverflowIncrement() {
 
-    getSut().write(Character.MAX_CODE_POINT);
+    sut().write(Character.MAX_CODE_POINT);
 
-    getSut().increment();
+    sut().increment();
 
-    assertThat(getSut().read(), is(Character.MIN_CODE_POINT));
-    assertTrue(getSut().isZero());
+    assertThat(sut().read(), is(Character.MIN_CODE_POINT));
+    assertTrue(sut().isZero());
 
   }
 
@@ -91,11 +91,11 @@ public class InfiniteCharacterTapeTest {
   public void testInputInUtf8() throws Exception {
 
     givenTapeCharset(Charsets.UTF_8);
-    givenInputString("0");
+    givenDataInputAsString("0");
 
-    getSut().writeFrom(dataInput());
+    sut().writeFrom(dataInput());
 
-    assertThat(getSut().read(), is(0x30));
+    assertThat(sut().read(), is(0x30));
 
   }
 
@@ -103,12 +103,12 @@ public class InfiniteCharacterTapeTest {
   public void testOutputInUtf8() throws Exception {
 
     givenTapeCharset(Charsets.UTF_8);
-    getSut().write(0x30);
+    sut().write(0x30);
 
-    getSut().readTo(dataOutput());
+    sut().readTo(dataOutput());
 
-    assertArrayEquals(new byte[]{0x30}, getOutputBytes());
-    assertEquals("0", getOutputString());
+    assertArrayEquals(new byte[]{0x30}, dataOutputAsBytes());
+    assertEquals("0", dataOutputAsString());
 
   }
 
@@ -116,11 +116,11 @@ public class InfiniteCharacterTapeTest {
   public void testInputInUtf16() throws Exception {
 
     givenTapeCharset(Charsets.UTF_16);
-    givenInputString("0");
+    givenDataInputAsString("0");
 
-    getSut().writeFrom(dataInput());
+    sut().writeFrom(dataInput());
 
-    assertThat(getSut().read(), is(0x0030));
+    assertThat(sut().read(), is(0x0030));
 
   }
 
@@ -128,46 +128,46 @@ public class InfiniteCharacterTapeTest {
   public void testOutputInUtf16() throws Exception {
 
     givenTapeCharset(Charsets.UTF_16);
-    getSut().write(0x0030);
+    sut().write(0x0030);
 
-    getSut().readTo(dataOutput());
+    sut().readTo(dataOutput());
 
-    assertArrayEquals(new byte[]{0x00, 0x30}, getOutputBytes());
-    assertEquals("0", getOutputString());
+    assertArrayEquals(new byte[]{0x00, 0x30}, dataOutputAsBytes());
+    assertEquals("0", dataOutputAsString());
 
   }
 
   @Test(expected = TapeIOException.class)
   public void testInputEofThrows() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.THROWS);
 
-    getSut().writeFrom(dataInput());
+    sut().writeFrom(dataInput());
 
   }
 
   @Test
   public void testInputEofReadsZero() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.READS_ZERO);
 
-    getSut().writeFrom(dataInput());
+    sut().writeFrom(dataInput());
 
-    assertThat(getSut().read(), is(0));
+    assertThat(sut().read(), is(0));
 
   }
 
   @Test
   public void testInputEofReadsMinusOne() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
 
-    getSut().writeFrom(dataInput());
+    sut().writeFrom(dataInput());
 
-    assertThat(getSut().read(), is(-1));
+    assertThat(sut().read(), is(-1));
 
   }
 
@@ -177,13 +177,13 @@ public class InfiniteCharacterTapeTest {
   @Test
   public void testIncrementAfterEofReadsMinusOne() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
 
-    getSut().writeFrom(dataInput());
-    getSut().increment();
+    sut().writeFrom(dataInput());
+    sut().increment();
 
-    assertThat(getSut().read(), is(0));
+    assertThat(sut().read(), is(0));
 
   }
 
@@ -193,13 +193,13 @@ public class InfiniteCharacterTapeTest {
   @Test
   public void testDecrementAfterEofReadsMinusOne() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
 
-    getSut().writeFrom(dataInput());
-    getSut().decrement();
+    sut().writeFrom(dataInput());
+    sut().decrement();
 
-    assertThat(getSut().read(), is(Character.MAX_CODE_POINT));
+    assertThat(sut().read(), is(Character.MAX_CODE_POINT));
 
   }
 
@@ -209,13 +209,13 @@ public class InfiniteCharacterTapeTest {
   @Test
   public void testOutputAfterEofReadsMinusOne() throws Exception {
 
-    givenInputString("");
+    givenEmptyDataInput();
     givenEofBehaviour(TapeEofBehaviour.READS_MINUS_ONE);
 
-    getSut().writeFrom(dataInput());
-    getSut().readTo(dataOutput());
+    sut().writeFrom(dataInput());
+    sut().readTo(dataOutput());
 
-    assertArrayEquals(getOutputBytes(), new byte[]{0});
+    assertArrayEquals(dataOutputAsBytes(), new byte[]{0});
 
   }
 
@@ -223,7 +223,11 @@ public class InfiniteCharacterTapeTest {
     this.eofBehaviour = eofBehaviour;
   }
 
-  protected void givenInputString(String inputString) {
+  protected void givenEmptyDataInput() {
+    givenDataInputAsString("");
+  }
+
+  protected void givenDataInputAsString(String inputString) {
     this.inputString = inputString;
   }
 
@@ -231,18 +235,18 @@ public class InfiniteCharacterTapeTest {
     tapeCharset = charset;
   }
 
-  protected InfiniteCharacterTape getSut() {
+  protected InfiniteCharacterTape sut() {
     if (sut == null) {
       sut = new InfiniteCharacterTape(tapeCharset, eofBehaviour);
     }
     return sut;
   }
 
-  protected byte[] getOutputBytes() {
+  protected byte[] dataOutputAsBytes() {
     return byteArrayOutputStream.toByteArray();
   }
 
-  protected String getOutputString() {
+  protected String dataOutputAsString() {
     return new String(byteArrayOutputStream.toByteArray(), tapeCharset);
   }
 

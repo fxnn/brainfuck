@@ -107,7 +107,8 @@ public class BrainfuckApplication implements Runnable {
     }
   }
 
-  protected void runBrainfuckPrograms(List<String> arguments, BrainfuckApplicationConfiguration configuration) throws ProgramStartupException {
+  protected void runBrainfuckPrograms(List<String> arguments, BrainfuckApplicationConfiguration configuration)
+      throws ProgramStartupException {
 
     try (BrainfuckProgramStartup programStartup = createBrainfuckProgramStartup(configuration)) {
 
@@ -134,11 +135,14 @@ public class BrainfuckApplication implements Runnable {
     HelpFormatter helpFormatter = new HelpFormatter();
 
     String header = APPLICATION_URL;
-    String footer = "To read a program from stdin, use \"-\" as program name.";
+    String footer = "By default, program names are paths to files containing programs. "
+        + "Programs are executed sequentially on different tapes. "
+        + "To read a single program from stdin, use \"-\" as program name.";
     String usage = getExecutableName() + " [options] program1 [program2 [...]]";
 
-    helpFormatter.printHelp(errWriter, HelpFormatter.DEFAULT_WIDTH, usage, header, options,
-        HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD, footer, false);
+    helpFormatter
+        .printHelp(errWriter, HelpFormatter.DEFAULT_WIDTH, usage, header, options, HelpFormatter.DEFAULT_LEFT_PAD,
+            HelpFormatter.DEFAULT_DESC_PAD, footer, false);
 
   }
 

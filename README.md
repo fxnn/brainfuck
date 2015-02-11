@@ -27,7 +27,9 @@ http://github.com/fxnn/brainfuck
  -o,--outfile <PATH>      Write output to file
     --progenc <CHARSET>   Use given encoding for programs
     --tapeenc <CHARSET>   Use given encoding for tape, input and output
-To read a program from stdin, use "-" as program name.
+By default, program names are paths to files containing programs. Programs
+are executed sequentially on different tapes. To read a single program
+from stdin, use "-" as program name.
 ```
 
 Or from your JVM program:

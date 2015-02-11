@@ -16,6 +16,22 @@ import static de.fxnn.util.UnicodeBuffers.*;
 /**
  * NOTE, that a {@link java.lang.Character} is not sufficient to represent each Unicode character. Actually, two
  * chars are needed, a high and a low surrogate one. Therefore, we use {@link java.lang.Integer} here.
+ * <p/>
+ * <strong>Overflow</strong> is handled such that each value on tape is in the range between
+ * {@link java.lang.Character#MIN_CODE_POINT} and {@link java.lang.Character#MAX_CODE_POINT}, decrementing on the
+ * minimum value leads to the maximum one and vice versa.
+ * <p/>
+ * <strong>Reading EOF:</strong>
+ * There's the special case of {@link de.fxnn.brainfuck.tape.TapeEofBehaviour#READS_MINUS_ONE}. Then, on reading EOF
+ * from the input stream, the tape will contain a <code>-1</code>, which denotes no legal Character and behaves as
+ * follows:
+ * <ul>
+ * <li>Incrementing it leads to <code>0</code>,</li>
+ * <li>decrementing it leads to {@link java.lang.Character#MAX_CODE_POINT}.</li>
+ * <li>On output it is treated as the <code>NUL</code> character.</li>
+ * </ul>
+ * <p/>
+ * See the unit tests for details.
  */
 public class InfiniteCharacterTape extends AbstractInfiniteTape<Integer> {
 
@@ -39,8 +55,8 @@ public class InfiniteCharacterTape extends AbstractInfiniteTape<Integer> {
   }
 
   @Override
-  protected InfiniteTapeSegment<Integer> createSegment() {
-    return new InfiniteTapeSegment<>(DEFAULT_TAPE_SEGMENT_SIZE, DEFAULT_VALUE);
+  protected TapeSegment<Integer> createSegment() {
+    return new TapeSegment<>(DEFAULT_TAPE_SEGMENT_SIZE, DEFAULT_VALUE);
   }
 
   @Override

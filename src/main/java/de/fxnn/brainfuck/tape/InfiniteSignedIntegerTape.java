@@ -7,6 +7,9 @@ import java.io.IOException;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * Input and output are done in terms of four byte (aka 32 bit) signed integer values.
+ */
 @AllArgsConstructor
 public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
 
@@ -17,8 +20,8 @@ public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
   private final TapeEofBehaviour eofBehaviour;
 
   @Override
-  protected InfiniteTapeSegment<Integer> createSegment() {
-    return new InfiniteTapeSegment<>(DEFAULT_TAPE_SEGMENT_SIZE, DEFAULT_VALUE);
+  protected TapeSegment<Integer> createSegment() {
+    return new TapeSegment<>(DEFAULT_TAPE_SEGMENT_SIZE, DEFAULT_VALUE);
   }
 
   @Override

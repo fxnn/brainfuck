@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 
 public abstract class AbstractInfiniteTape<T> implements Tape<T> {
 
-  private InfiniteTapeSegment<T> currentSegment;
+  private TapeSegment<T> currentSegment;
 
   public AbstractInfiniteTape() {
     currentSegment = createSegment();
@@ -21,12 +21,12 @@ public abstract class AbstractInfiniteTape<T> implements Tape<T> {
     }
   }
 
-  protected InfiniteTapeSegment<T> getOrCreateNextSegment() {
+  protected TapeSegment<T> getOrCreateNextSegment() {
     return currentSegment.getNextSegment().orElseGet(this::createNextSegment);
   }
 
-  protected InfiniteTapeSegment<T> createNextSegment() {
-    InfiniteTapeSegment<T> nextSegment = createSegment();
+  protected TapeSegment<T> createNextSegment() {
+    TapeSegment<T> nextSegment = createSegment();
     nextSegment.setPreviousSegment(Optional.of(currentSegment));
     currentSegment.setNextSegment(Optional.of(nextSegment));
 
@@ -42,19 +42,19 @@ public abstract class AbstractInfiniteTape<T> implements Tape<T> {
     }
   }
 
-  public InfiniteTapeSegment<T> getOrCreatePreviousSegment() {
+  public TapeSegment<T> getOrCreatePreviousSegment() {
     return createSegment().getPreviousSegment().orElseGet(this::createPreviousSegment);
   }
 
-  private InfiniteTapeSegment<T> createPreviousSegment() {
-    InfiniteTapeSegment<T> previousSegment = createSegment();
+  private TapeSegment<T> createPreviousSegment() {
+    TapeSegment<T> previousSegment = createSegment();
     previousSegment.setNextSegment(Optional.of(currentSegment));
     currentSegment.setPreviousSegment(Optional.of(previousSegment));
 
     return previousSegment;
   }
 
-  protected abstract InfiniteTapeSegment<T> createSegment();
+  protected abstract TapeSegment<T> createSegment();
 
   protected void write(@Nonnull T value) {
     currentSegment.write(value);
