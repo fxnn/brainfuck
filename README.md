@@ -46,6 +46,15 @@ Runnable programExecutor = new ProgramExecutor(
 programExecutor.run();
 ```
 
+## Components
+
+* Tapes
+ * infinite tape of signed 32 bit integers (cf. `InfiniteSignedIntegerTape`)
+ * infinite tape of characters in all charsets supported by Java API (cf. `InfiniteCharacterTape`)
+* Programs
+ * source managed as single string (cf. `StringProgram`)
+ * source managed in a tree whose leafs are regular string-sourced programs (cf. `TreeProgram`)
+
 ## License
 
 Licensed under MIT, see for [LICENSE](LICENSE) file.
