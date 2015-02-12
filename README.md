@@ -8,7 +8,7 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 * Program source (cf. `de.fxnn.brainfuck.program`)
 
 [![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
-[![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=conf-coverage)](https://coveralls.io/r/fxnn/brainfuck?branch=conf-coverage)
+[![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=master)](https://coveralls.io/r/fxnn/brainfuck?branch=master)
 
 ## Usage
 
