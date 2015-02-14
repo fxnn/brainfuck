@@ -7,6 +7,8 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 * Instruction Set and Interpreter (cf. `de.fxnn.brainfuck.interpreter`)
 * Program source (cf. `de.fxnn.brainfuck.program`)
 
+Also note the [github.com/fxnn/brainfuck-on-genetics](https://github.com/fxnn/brainfuck-on-genetics) project implementing genetic algorithms on top of this interpreter.
+
 [![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
 [![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=master)](https://coveralls.io/r/fxnn/brainfuck?branch=master)
 
