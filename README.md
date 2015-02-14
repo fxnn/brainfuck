@@ -8,6 +8,7 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 * Program source (cf. `de.fxnn.brainfuck.program`)
 
 [![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
+[![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=master)](https://coveralls.io/r/fxnn/brainfuck?branch=master)
 
 ## Usage
 
@@ -45,6 +46,15 @@ Runnable programExecutor = new ProgramExecutor(
 );
 programExecutor.run();
 ```
+
+## Components
+
+* Tapes
+ * infinite tape of signed 32 bit integers (cf. `InfiniteSignedIntegerTape`)
+ * infinite tape of characters in all charsets supported by Java API (cf. `InfiniteCharacterTape`)
+* Programs
+ * source managed as single string (cf. `StringProgram`)
+ * source managed in a tree whose leafs are regular string-sourced programs (cf. `TreeProgram`)
 
 ## License
 
