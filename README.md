@@ -60,7 +60,8 @@ programExecutor.run();
 
 ## Related Work
 
-* This project was never designed to (and does terribly fail at) execute Brainfuck code _fast_. You might consider https://github.com/Borisvl/brainfuck for a set of (really) fast Java Brainfuck executors. 
+* This project was never designed to (and does terribly fail at) execute Brainfuck code _fast_. For this problem being solved with Java in a variety of ways, you might consider [github.com/Borisvl/brainfuck](https://github.com/Borisvl/brainfuck). (Did anyone say "bytecode"?)
+* While I am also working on a project involving [machine learning](https://github.com/fxnn/brainfuck-on-genetics), I haven't been the first to come to this idea. It follows that others are more advanced in their solution. Take [github.com/primaryobjects/AI-Programmer](https://github.com/primaryobjects/AI-Programmer), who even played with Brainfuck extensions supporting functions and published some really interesting [articles](http://www.primaryobjects.com/CMS/Article149) about everything.
 
 ## License
 
