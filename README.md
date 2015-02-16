@@ -58,6 +58,10 @@ programExecutor.run();
  * source managed as single string (cf. `StringProgram`)
  * source managed in a tree whose leafs are regular string-sourced programs (cf. `TreeProgram`)
 
+## Related Work
+
+* This project was never designed to (and does terribly fail at) execute Brainfuck code _fast_. You might consider https://github.com/Borisvl/brainfuck for a set of (really) fast Java Brainfuck executors. 
+
 ## License
 
 Licensed under MIT, see for [LICENSE](LICENSE) file.
