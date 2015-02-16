@@ -3,6 +3,8 @@ package de.fxnn.brainfuck.tape;
 import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.IOException;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -10,11 +12,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+
 public class InfiniteSignedIntegerTapeTest {
 
   InfiniteSignedIntegerTape sut;
 
-  ByteArrayDataOutput output;
+  DataOutput output;
 
   DataInput input;
 
@@ -79,7 +85,7 @@ public class InfiniteSignedIntegerTapeTest {
 
     sut.readTo(output);
 
-    Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, output.toByteArray());
+    Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, outputAsByteArray());
 
   }
 
@@ -89,7 +95,7 @@ public class InfiniteSignedIntegerTapeTest {
     sut.increment();
     sut.readTo(output);
 
-    Assert.assertArrayEquals(new byte[]{0, 0, 0, 1}, output.toByteArray());
+    Assert.assertArrayEquals(new byte[]{0, 0, 0, 1}, outputAsByteArray());
 
   }
 
@@ -99,7 +105,7 @@ public class InfiniteSignedIntegerTapeTest {
     sut.decrement();
     sut.readTo(output);
 
-    Assert.assertArrayEquals(new byte[]{-1, -1, -1, -1}, output.toByteArray());
+    Assert.assertArrayEquals(new byte[]{-1, -1, -1, -1}, outputAsByteArray());
 
   }
 
@@ -134,8 +140,32 @@ public class InfiniteSignedIntegerTapeTest {
 
   }
 
+  @Test(expected = TapeIOException.class)
+  public void testIoExceptionOnInput() throws Exception {
+
+    input = mock(DataInput.class);
+    doThrow(IOException.class).when(input).readInt();
+
+    sut.writeFrom(input);
+
+  }
+
+  @Test(expected = TapeIOException.class)
+  public void testIoExceptionOnOutput() throws Exception {
+
+    output = mock(ByteArrayDataOutput.class);
+    doThrow(IOException.class).when(output).writeInt(anyInt());
+
+    sut.readTo(output);
+
+  }
+
   protected void givenEofBehaviour(TapeEofBehaviour eofBehaviour) {
     sut = new InfiniteSignedIntegerTape(eofBehaviour);
+  }
+
+  protected byte[] outputAsByteArray() {
+    return ((ByteArrayDataOutput) output).toByteArray();
   }
 
 }
