@@ -1,12 +1,14 @@
 package de.fxnn.brainfuck;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter;
+import de.fxnn.brainfuck.interpreter.InterpreterException;
 import de.fxnn.brainfuck.program.Program;
 import de.fxnn.brainfuck.program.StringProgram;
 import de.fxnn.brainfuck.tape.InfiniteCharacterTape;
@@ -15,6 +17,9 @@ import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ProgramExecutorTest {
 
@@ -28,6 +33,10 @@ public class ProgramExecutorTest {
 
   ByteArrayDataOutput output;
 
+  Thread thread;
+
+  AtomicReference<Throwable> throwable = new AtomicReference<>();
+
   @Before
   public void setUp() {
     tape = new InfiniteCharacterTape(Charsets.UTF_8, TapeEofBehaviour.THROWS);
@@ -40,7 +49,7 @@ public class ProgramExecutorTest {
 
     givenProgram("+.");
 
-    whenProgramIsExecuted();
+    whenBrainfuckProgramIsExecuted();
 
     assertOutputEquals((byte) 1);
 
@@ -51,7 +60,7 @@ public class ProgramExecutorTest {
 
     givenProgram("[.]");
 
-    whenProgramIsExecuted();
+    whenBrainfuckProgramIsExecuted();
 
     assertOutputEquals();
 
@@ -62,7 +71,7 @@ public class ProgramExecutorTest {
 
     givenProgram("+[.-]");
 
-    whenProgramIsExecuted();
+    whenBrainfuckProgramIsExecuted();
 
     assertOutputEquals((byte) 1);
 
@@ -73,9 +82,35 @@ public class ProgramExecutorTest {
 
     givenProgram("+++>++>+>.<.<.<.");
 
-    whenProgramIsExecuted();
+    whenBrainfuckProgramIsExecuted();
 
     assertOutputEquals((byte) 0, (byte) 1, (byte) 2, (byte) 3);
+
+  }
+
+  @Test
+  public void testThreadInterruptThrowsProgramExecutionException() throws Exception {
+
+    givenProgramWithInfiniteLoop();
+
+    whenBrainfuckProgramIsExecutedConcurrently();
+
+    thread.interrupt();
+    thread.join();
+
+    assertNotNull(throwable.get());
+    assertEquals(ProgramExecutionException.class, throwable.get().getClass());
+
+  }
+
+  @Test(expected = ProgramExecutionException.class)
+  public void testInterpreterExceptionCausesProgramExecutionException() throws Exception {
+
+    sut = new ProgramExecutor(new StringProgram("+"), instruction -> {
+      throw new InterpreterException("Thrown by test");
+    });
+
+    sut.run();
 
   }
 
@@ -83,13 +118,28 @@ public class ProgramExecutorTest {
     Assert.assertArrayEquals(expectedOutput, output.toByteArray());
   }
 
-  protected void whenProgramIsExecuted() throws IOException {
-      sut = new ProgramExecutor(program, new BrainfuckInterpreter(tape, input, output));
-      sut.run();
+  protected void whenBrainfuckProgramIsExecuted() throws IOException {
+    sut = createSutWithBrainfuckProgram();
+    sut.run();
+  }
+
+  protected void whenBrainfuckProgramIsExecutedConcurrently() throws IOException {
+    sut = createSutWithBrainfuckProgram();
+    thread = new Thread(sut);
+    thread.setUncaughtExceptionHandler((t, e) -> throwable.set(e));
+    thread.start();
+  }
+
+  protected ProgramExecutor createSutWithBrainfuckProgram() {
+    return new ProgramExecutor(program, new BrainfuckInterpreter(tape, input, output));
   }
 
   protected void givenInput(byte... input) {
     this.input = ByteStreams.newDataInput(input);
+  }
+
+  protected void givenProgramWithInfiniteLoop() {
+    givenProgram("+[]");
   }
 
   protected void givenProgram(String brainfuckProgram) {

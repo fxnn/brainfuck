@@ -2,9 +2,6 @@ package de.fxnn.brainfuck.interpreter;
 
 public class InterpreterException extends Exception {
 
-  public InterpreterException() {
-  }
-
   public InterpreterException(String message) {
     super(message);
   }
@@ -13,11 +10,4 @@ public class InterpreterException extends Exception {
     super(message, cause);
   }
 
-  public InterpreterException(Throwable cause) {
-    super(cause);
-  }
-
-  public InterpreterException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-    super(message, cause, enableSuppression, writableStackTrace);
-  }
 }
