@@ -1,5 +1,12 @@
 language: java
 jdk:
   - oraclejdk8
+install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn test -P !build-extras -B
 after_success:
   - mvn clean test jacoco:report coveralls:report
+  - ./src/main/deploy/before-deploy.sh
+  - ./src/main/deploy/deploy.sh
+cache:
+  directories:
+    - ~/.m2/repository
