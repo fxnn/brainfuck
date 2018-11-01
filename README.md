@@ -11,6 +11,7 @@ Also note the [github.com/fxnn/brainfuck-on-genetics](https://github.com/fxnn/br
 
 [![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
 [![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=master)](https://coveralls.io/r/fxnn/brainfuck?branch=master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.fxnn/brainfuck/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.fxnn/brainfuck)
 
 ## Usage
 
@@ -47,6 +48,16 @@ Runnable programExecutor = new ProgramExecutor(
     )
 );
 programExecutor.run();
+```
+
+Brainfuck can be found in Maven Central.
+
+```
+<dependency>
+  <groupId>de.fxnn</groupId>
+  <artifactId>brainfuck</artifactId>
+  <version>1.0.0</version>
+</dependency>
 ```
 
 ## Components
