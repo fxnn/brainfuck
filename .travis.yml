@@ -1,11 +1,26 @@
 language: java
+
 jdk:
   - oraclejdk8
-install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn test -P !build-extras -B
-after_success:
-  - mvn clean test jacoco:report coveralls:report -P record-coverage,!build-extras -B
-  - chmod +x src/main/build/mvndeploy.sh && ./src/main/build/mvndeploy.sh
+
+script: mvn install --batch-mode --show-version
+
+deploy:
+  - provider: script
+    script: bash src/main/build/mvndeploy.sh
+    skip_cleanup: true
+    on:
+      repo: fxnn/brainfuck
+      branch: master
+  - provider: script
+    script: bash src/main/build/mvndeploy.sh
+    skip_cleanup: true
+    on:
+      repo: fxnn/brainfuck
+      tags: true
+  - provider: script
+    script: bash src/main/build/jacoco-report.sh
+
 cache:
   directories:
     - ~/.m2/repository
