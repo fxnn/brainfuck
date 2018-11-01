@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # based on http://www.debonair.io/post/maven-cd/
 
+set -e
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then

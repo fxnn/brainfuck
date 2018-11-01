@@ -5,7 +5,7 @@ install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true
 script: mvn test -P !build-extras -B
 after_success:
   - mvn clean test jacoco:report coveralls:report -P record-coverage,!build-extras -B
-  - ./src/main/build/mvndeploy.sh
+  - chmod +x src/main/build/mvndeploy.sh && ./src/main/build/mvndeploy.sh
 cache:
   directories:
     - ~/.m2/repository
