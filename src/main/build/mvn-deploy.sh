@@ -21,5 +21,5 @@ fi
 
 echo "Deploying to repository"
 echo
-mvn deploy -P sign,build-extras --settings $DIR/mvnsettings.xml
+mvn deploy -P sign,build-extras -DskipTests=true --settings $DIR/mvn-settings.xml
 echo

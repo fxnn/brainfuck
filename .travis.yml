@@ -3,23 +3,26 @@ language: java
 jdk:
   - oraclejdk8
 
-script: mvn install --batch-mode --show-version
+# stick with the Travis CI default of install=`mvn install` and script=`mvn test`
 
 deploy:
+  # deploy master branch to snapshot repository
   - provider: script
-    script: bash src/main/build/mvndeploy.sh
+    script: bash src/main/build/mvn-deploy.sh
     skip_cleanup: true
     on:
       repo: fxnn/brainfuck
       branch: master
+  # deploy tags to release repository
   - provider: script
-    script: bash src/main/build/mvndeploy.sh
+    script: bash src/main/build/mvn-deploy.sh
     skip_cleanup: true
     on:
       repo: fxnn/brainfuck
       tags: true
+  # deploy Jacoco test results to coveralls
   - provider: script
-    script: bash src/main/build/jacoco-report.sh
+    script: bash src/main/build/coveralls-report.sh
 
 cache:
   directories:
