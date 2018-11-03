@@ -8,8 +8,6 @@ public interface InstructionPointer {
 
   char getInstruction();
 
-  default boolean isEndOfProgram() {
-    return equals(invalidInstructionPointer());
-  }
+  boolean isEndOfProgram();
 
 }

@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class TreeInstructionPointer implements InstructionPointer {
+public class TreeInstructionPointer extends AbstractInstructionPointer {
 
   private final List<Program> childPrograms;
 

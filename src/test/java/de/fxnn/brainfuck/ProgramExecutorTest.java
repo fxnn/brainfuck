@@ -8,7 +8,9 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter;
+import de.fxnn.brainfuck.interpreter.Interpreter;
 import de.fxnn.brainfuck.interpreter.InterpreterException;
+import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.program.Program;
 import de.fxnn.brainfuck.program.StringProgram;
 import de.fxnn.brainfuck.tape.InfiniteCharacterTape;
@@ -106,8 +108,12 @@ public class ProgramExecutorTest {
   @Test(expected = ProgramExecutionException.class)
   public void testInterpreterExceptionCausesProgramExecutionException() throws Exception {
 
-    sut = new ProgramExecutor(new StringProgram("+"), instruction -> {
-      throw new InterpreterException("Thrown by test");
+    sut = new ProgramExecutor(new StringProgram("+"), new Interpreter() {
+
+      @Override
+      public InstructionPointer step(InstructionPointer instruction) throws InterpreterException {
+        throw new InterpreterException("Thrown by test");
+      }
     });
 
     sut.run();
@@ -126,7 +132,13 @@ public class ProgramExecutorTest {
   protected void whenBrainfuckProgramIsExecutedConcurrently() throws IOException {
     sut = createSutWithBrainfuckProgram();
     thread = new Thread(sut);
-    thread.setUncaughtExceptionHandler((t, e) -> throwable.set(e));
+    thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+      @Override
+      public void uncaughtException(Thread t, Throwable e) {
+        throwable.set(e);
+      }
+    });
     thread.start();
   }
 

@@ -1,6 +1,6 @@
 package de.fxnn.brainfuck.program;
 
-public class InvalidInstructionPointer implements InstructionPointer {
+public class InvalidInstructionPointer extends AbstractInstructionPointer {
 
   private static final InvalidInstructionPointer INVALID_INSTRUCTION_POINTER = new InvalidInstructionPointer();
 

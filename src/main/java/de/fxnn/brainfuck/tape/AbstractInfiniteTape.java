@@ -1,7 +1,5 @@
 package de.fxnn.brainfuck.tape;
 
-import java.util.Optional;
-
 import javax.annotation.Nonnull;
 
 public abstract class AbstractInfiniteTape<T> implements Tape<T> {
@@ -22,13 +20,18 @@ public abstract class AbstractInfiniteTape<T> implements Tape<T> {
   }
 
   protected TapeSegment<T> getOrCreateNextSegment() {
-    return currentSegment.getNextSegment().orElseGet(this::createNextSegment);
+    TapeSegment<T> nextSegment = currentSegment.getNextSegment();
+    if (nextSegment != null) {
+      return nextSegment;
+    }
+
+    return createNextSegment();
   }
 
   protected TapeSegment<T> createNextSegment() {
     TapeSegment<T> nextSegment = createSegment();
-    nextSegment.setPreviousSegment(Optional.of(currentSegment));
-    currentSegment.setNextSegment(Optional.of(nextSegment));
+    nextSegment.setPreviousSegment(currentSegment);
+    currentSegment.setNextSegment(nextSegment);
 
     return nextSegment;
   }
@@ -43,13 +46,18 @@ public abstract class AbstractInfiniteTape<T> implements Tape<T> {
   }
 
   public TapeSegment<T> getOrCreatePreviousSegment() {
-    return createSegment().getPreviousSegment().orElseGet(this::createPreviousSegment);
+    TapeSegment<T> previousSegment = createSegment().getPreviousSegment();
+    if (previousSegment != null) {
+      return previousSegment;
+    }
+
+    return createPreviousSegment();
   }
 
   private TapeSegment<T> createPreviousSegment() {
     TapeSegment<T> previousSegment = createSegment();
-    previousSegment.setNextSegment(Optional.of(currentSegment));
-    currentSegment.setPreviousSegment(Optional.of(previousSegment));
+    previousSegment.setNextSegment(currentSegment);
+    currentSegment.setPreviousSegment(previousSegment);
 
     return previousSegment;
   }

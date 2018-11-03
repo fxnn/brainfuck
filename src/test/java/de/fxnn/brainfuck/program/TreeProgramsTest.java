@@ -1,5 +1,6 @@
 package de.fxnn.brainfuck.program;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class TreeProgramsTest {
     Iterator<Program> programIterator = TreePrograms.searchProgramsDepthFirst(EmptyProgram.emptyProgram());
 
     List<Program> iteratedPrograms = newArrayList(programIterator);
-    assertThat(iteratedPrograms, contains(EmptyProgram.emptyProgram()));
+    assertThat(iteratedPrograms, contains((Program) EmptyProgram.emptyProgram()));
 
   }
 
@@ -31,7 +32,7 @@ public class TreeProgramsTest {
     Iterator<Program> programIterator = TreePrograms.searchProgramsDepthFirst(stringProgram);
 
     List<Program> iteratedPrograms = newArrayList(programIterator);
-    assertThat(iteratedPrograms, contains(stringProgram));
+    assertThat(iteratedPrograms, contains((Program) stringProgram));
 
   }
 
@@ -40,7 +41,7 @@ public class TreeProgramsTest {
 
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
-    TreeProgram treeProgram = new TreeProgram(asList(stringProgram1, stringProgram2));
+    TreeProgram treeProgram = new TreeProgram(Arrays.<Program>asList(stringProgram1, stringProgram2));
 
     Iterator<Program> programIterator = TreePrograms.searchProgramsDepthFirst(treeProgram);
 
@@ -55,7 +56,7 @@ public class TreeProgramsTest {
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
     StringProgram stringProgram3 = new StringProgram("><");
-    TreeProgram treeProgram2 = new TreeProgram(asList(stringProgram2));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(stringProgram2));
     TreeProgram treeProgram1 = new TreeProgram(asList(stringProgram1, treeProgram2, stringProgram3));
 
     Iterator<Program> programIterator = TreePrograms.searchProgramsDepthFirst(treeProgram1);
@@ -69,9 +70,9 @@ public class TreeProgramsTest {
   public void testSearchProgramsDepthFirst_treeProgram_threeLevels() {
 
     StringProgram stringProgram = new StringProgram("+-");
-    TreeProgram treeProgram3 = new TreeProgram(asList(stringProgram));
-    TreeProgram treeProgram2 = new TreeProgram(asList(treeProgram3));
-    TreeProgram treeProgram1 = new TreeProgram(asList(treeProgram2));
+    TreeProgram treeProgram3 = new TreeProgram(Arrays.<Program>asList(stringProgram));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(treeProgram3));
+    TreeProgram treeProgram1 = new TreeProgram(Arrays.<Program>asList(treeProgram2));
 
     Iterator<Program> programIterator = TreePrograms.searchProgramsDepthFirst(treeProgram1);
 
@@ -99,7 +100,7 @@ public class TreeProgramsTest {
 
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
-    TreeProgram treeProgram = new TreeProgram(asList(stringProgram1, stringProgram2));
+    TreeProgram treeProgram = new TreeProgram(Arrays.<Program>asList(stringProgram1, stringProgram2));
 
     assertThat(TreePrograms.toString(treeProgram), equalTo("+-,."));
 
@@ -111,7 +112,7 @@ public class TreeProgramsTest {
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
     StringProgram stringProgram3 = new StringProgram("<>");
-    TreeProgram treeProgram2 = new TreeProgram(asList(stringProgram2));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(stringProgram2));
     TreeProgram treeProgram1 = new TreeProgram(asList(stringProgram1, treeProgram2, stringProgram3));
 
     assertThat(TreePrograms.toString(treeProgram1), equalTo("+-,.<>"));
@@ -122,9 +123,9 @@ public class TreeProgramsTest {
   public void testToString_treeProgram_threeLevels() {
 
     StringProgram stringProgram = new StringProgram("+-");
-    TreeProgram treeProgram3 = new TreeProgram(asList(stringProgram));
-    TreeProgram treeProgram2 = new TreeProgram(asList(treeProgram3));
-    TreeProgram treeProgram1 = new TreeProgram(asList(treeProgram2));
+    TreeProgram treeProgram3 = new TreeProgram(Arrays.<Program>asList(stringProgram));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(treeProgram3));
+    TreeProgram treeProgram1 = new TreeProgram(Arrays.<Program>asList(treeProgram2));
 
     assertThat(TreePrograms.toString(treeProgram1), equalTo("+-"));
 
@@ -149,7 +150,7 @@ public class TreeProgramsTest {
 
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
-    TreeProgram treeProgram = new TreeProgram(asList(stringProgram1, stringProgram2));
+    TreeProgram treeProgram = new TreeProgram(Arrays.<Program>asList(stringProgram1, stringProgram2));
 
     assertThat(TreePrograms.getTotalStringProgramLength(treeProgram), equalTo(4));
 
@@ -161,7 +162,7 @@ public class TreeProgramsTest {
     StringProgram stringProgram1 = new StringProgram("+-");
     StringProgram stringProgram2 = new StringProgram(",.");
     StringProgram stringProgram3 = new StringProgram("<>");
-    TreeProgram treeProgram2 = new TreeProgram(asList(stringProgram2));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(stringProgram2));
     TreeProgram treeProgram1 = new TreeProgram(asList(stringProgram1, treeProgram2, stringProgram3));
 
     assertThat(TreePrograms.getTotalStringProgramLength(treeProgram1), equalTo(6));
@@ -172,9 +173,9 @@ public class TreeProgramsTest {
   public void testGetTotalStringProgramLength_treeProgram_threeLevels() {
 
     StringProgram stringProgram = new StringProgram("+-");
-    TreeProgram treeProgram3 = new TreeProgram(asList(stringProgram));
-    TreeProgram treeProgram2 = new TreeProgram(asList(treeProgram3));
-    TreeProgram treeProgram1 = new TreeProgram(asList(treeProgram2));
+    TreeProgram treeProgram3 = new TreeProgram(Arrays.<Program>asList(stringProgram));
+    TreeProgram treeProgram2 = new TreeProgram(Arrays.<Program>asList(treeProgram3));
+    TreeProgram treeProgram1 = new TreeProgram(Arrays.<Program>asList(treeProgram2));
 
     assertThat(TreePrograms.getTotalStringProgramLength(treeProgram1), equalTo(2));
 

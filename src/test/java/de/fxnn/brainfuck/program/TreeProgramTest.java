@@ -24,15 +24,15 @@ public class TreeProgramTest {
   public void testIteratesLeafsInExecutionOrder() {
 
     TreeProgram sut = new TreeProgram(Arrays.asList( //
-        new TreeProgram(Arrays.asList(new StringProgram("++"), new StringProgram("--"))), //
+        new TreeProgram(Arrays.<Program>asList(new StringProgram("++"), new StringProgram("--"))), //
         new StringProgram("<<"), //
-        new TreeProgram(Arrays.asList(new StringProgram(">>"))) //
+        new TreeProgram(Arrays.<Program>asList(new StringProgram(">>"))) //
     ));
 
     ImmutableList<Program> stringProgramsInIterationOrder = ImmutableList
         .copyOf(Iterators.filter(sut.iterator(), Predicates.instanceOf(StringProgram.class)));
 
-    Assert.assertThat(stringProgramsInIterationOrder, Matchers.contains(//
+    Assert.assertThat(stringProgramsInIterationOrder, Matchers.<Program>contains(//
         new StringProgram("++"), new StringProgram("--"), new StringProgram("<<"), new StringProgram(">>")) //
     );
 

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
 @AllArgsConstructor
-public class StringInstructionPointer implements InstructionPointer {
+public class StringInstructionPointer extends AbstractInstructionPointer {
 
   String program;
 

@@ -1,11 +1,11 @@
 package de.fxnn.brainfuck.tape;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Collections.nCopies;
 
@@ -17,11 +17,13 @@ public class TapeSegment<T> {
 
   @Getter
   @Setter
-  Optional<TapeSegment<T>> previousSegment = Optional.empty();
+  @Nullable
+  TapeSegment<T> previousSegment = null;
 
   @Getter
   @Setter
-  Optional<TapeSegment<T>> nextSegment = Optional.empty();
+  @Nullable
+  TapeSegment<T> nextSegment = null;
 
   public TapeSegment(int size, T initialValue) {
     this.list = new ArrayList<>(nCopies(size, initialValue));

@@ -1,9 +1,10 @@
 package de.fxnn.brainfuck.program;
 
-import java.util.Iterator;
-
 import com.google.common.collect.Iterators;
-import com.google.common.collect.UnmodifiableIterator;
+import de.fxnn.util.IteratorToIterable;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class TreePrograms {
 
@@ -11,9 +12,11 @@ public class TreePrograms {
     // static utility class
   }
 
-  /** including the treeProgram itself */
+  /**
+   * including the treeProgram itself
+   */
   public static Iterator<Program> searchProgramsDepthFirst(Program program) {
-    UnmodifiableIterator<Program> singletonIterator = Iterators.singletonIterator(program);
+    Iterator<Program> singletonIterator = Iterators.singletonIterator(program);
     if (program instanceof TreeProgram) {
       return Iterators.concat(singletonIterator, ((TreeProgram) program).iterator());
     }
@@ -22,9 +25,12 @@ public class TreePrograms {
   }
 
   public static String toString(Program program) {
-    StringBuilder resultBuilder = new StringBuilder();
+    final StringBuilder resultBuilder = new StringBuilder();
 
-    Iterators.filter(searchProgramsDepthFirst(program), StringProgram.class).forEachRemaining(p -> resultBuilder.append(p.getProgram()));
+    Iterator<StringProgram> stringPrograms = Iterators.filter(searchProgramsDepthFirst(program), StringProgram.class);
+    for (StringProgram p : IteratorToIterable.iterateOnce(stringPrograms)) {
+      resultBuilder.append(p.getProgram());
+    }
 
     return resultBuilder.toString();
   }
@@ -35,7 +41,14 @@ public class TreePrograms {
     }
 
     if (program instanceof TreeProgram) {
-      return ((TreeProgram) program).getChildPrograms().stream().mapToInt(TreePrograms::getTotalStringProgramLength).sum();
+      int result = 0;
+
+      List<Program> childPrograms = ((TreeProgram) program).getChildPrograms();
+      for (Program childProgram : childPrograms) {
+        result += getTotalStringProgramLength(childProgram);
+      }
+
+      return result;
     }
 
     throw new IllegalArgumentException("Program not supported: " + program);
