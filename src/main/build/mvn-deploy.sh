@@ -4,9 +4,6 @@
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-mvn help:evaluate -Dexpression=project.version
-echo
-
 echo "Importing GPG key"
 echo
 openssl aes-256-cbc \
@@ -15,7 +12,12 @@ openssl aes-256-cbc \
 gpg --fast-import $DIR/codesigning.asc
 echo
 
-PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+# from https://stackoverflow.com/a/26514030/3281722
+PROJECT_VERSION=$(mvn -q \
+    -Dexec.executable=echo \
+    -Dexec.args='${project.version}' \
+    --non-recursive \
+    exec:exec)
 echo "Maven project version is '${PROJECT_VERSION}'"
 echo
 
