@@ -4,6 +4,9 @@
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+echo $(pwd)
+echo
+
 echo "Importing GPG key"
 echo
 openssl aes-256-cbc \
@@ -24,7 +27,7 @@ if [ "$TRAVIS_TAG" != "" ]; then
         exit 1
     fi
     echo
-else if [[ "$PROJECT_VERSION" != *-SNAPSHOT ]]; then
+elif [[ "$PROJECT_VERSION" != *-SNAPSHOT ]]; then
     echo "ERROR: Project version is no SNAPSHOT version, but no tag is being built" >&2
     exit 1
 fi
