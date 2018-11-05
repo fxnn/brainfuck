@@ -15,7 +15,11 @@ echo
 if [ "$TRAVIS_TAG" != "" ]; then
     echo "Releasing version $TRAVIS_TAG"
     echo
-    mvn versions:set -DnewVersion=$TRAVIS_TAG -DgenerateBackupPoms=false
+    PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    IF [ "$PROJECT_VERSION" != "$TRAVIS_TAG" ]; then
+        echo "ERROR: Project version '${PROJECT_VERSION}' does not equal Travis-CI Tag '${TRAVIS_TAG}'"
+        exit 1
+    fi
     echo
 fi
 
