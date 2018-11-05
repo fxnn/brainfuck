@@ -1,10 +1,10 @@
 package de.fxnn.brainfuck.program;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import org.junit.Test;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;

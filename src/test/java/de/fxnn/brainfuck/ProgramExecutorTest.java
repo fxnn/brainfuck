@@ -1,8 +1,5 @@
 package de.fxnn.brainfuck;
 
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -19,6 +16,9 @@ import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

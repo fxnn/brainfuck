@@ -1,23 +1,14 @@
 package de.fxnn.brainfuck.cli;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import com.google.common.base.Joiner;
+import de.fxnn.brainfuck.ProgramExecutionException;
+import org.apache.commons.cli.*;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.List;
-
-import com.google.common.base.Joiner;
-import de.fxnn.brainfuck.ProgramExecutionException;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 
 import static de.fxnn.brainfuck.cli.BrainfuckOptionsFactory.*;
 import static de.fxnn.brainfuck.tape.TapeEofBehaviour.READS_ZERO;

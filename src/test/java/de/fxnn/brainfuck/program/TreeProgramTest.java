@@ -1,14 +1,14 @@
 package de.fxnn.brainfuck.program;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 public class TreeProgramTest {
 

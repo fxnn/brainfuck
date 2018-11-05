@@ -5,12 +5,9 @@ import java.io.DataOutput;
 import java.io.EOFException;
 import java.io.IOException;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Input and output are done in terms of four byte (aka 32 bit) signed integer values.
  */
-@AllArgsConstructor
 public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
 
   private static final int DEFAULT_TAPE_SEGMENT_SIZE = 1024;
@@ -18,6 +15,10 @@ public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
   private static final int DEFAULT_VALUE = 0;
 
   private final TapeEofBehaviour eofBehaviour;
+
+  public InfiniteSignedIntegerTape(TapeEofBehaviour eofBehaviour) {
+    this.eofBehaviour = eofBehaviour;
+  }
 
   @Override
   protected TapeSegment<Integer> createSegment() {

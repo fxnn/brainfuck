@@ -1,21 +1,17 @@
 package de.fxnn.brainfuck.cli;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import com.google.common.io.CharStreams;
 import de.fxnn.brainfuck.ProgramBuilder;
 import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;

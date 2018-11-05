@@ -1,15 +1,14 @@
 package de.fxnn.brainfuck.cli;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.base.Joiner;
 import de.fxnn.brainfuck.tape.TapeEofBehaviour;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BrainfuckOptionsFactory {
 

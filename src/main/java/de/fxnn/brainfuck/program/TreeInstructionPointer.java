@@ -2,12 +2,8 @@ package de.fxnn.brainfuck.program;
 
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-
 import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class TreeInstructionPointer extends AbstractInstructionPointer {
 
   private final List<Program> childPrograms;
@@ -15,6 +11,13 @@ public class TreeInstructionPointer extends AbstractInstructionPointer {
   private final int childProgramIndex;
 
   private final InstructionPointer childInstructionPointer;
+
+  protected TreeInstructionPointer(List<Program> childPrograms, int childProgramIndex,
+      InstructionPointer childInstructionPointer) {
+    this.childPrograms = childPrograms;
+    this.childProgramIndex = childProgramIndex;
+    this.childInstructionPointer = childInstructionPointer;
+  }
 
   @Override
   public char getInstruction() {

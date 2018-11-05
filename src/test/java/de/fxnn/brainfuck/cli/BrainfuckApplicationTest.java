@@ -1,5 +1,12 @@
 package de.fxnn.brainfuck.cli;
 
+import com.google.common.base.Splitter;
+import de.fxnn.brainfuck.tape.TapeEofBehaviour;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,13 +14,6 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Splitter;
-import de.fxnn.brainfuck.tape.TapeEofBehaviour;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
 
 import static com.marvinformatics.kiss.matchers.file.FileMatchers.withName;
 import static org.hamcrest.Matchers.*;

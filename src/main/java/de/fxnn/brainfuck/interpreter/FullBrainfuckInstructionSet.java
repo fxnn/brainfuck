@@ -1,13 +1,13 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.util.Deque;
-
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.tape.OutOfTapeBoundsException;
 import de.fxnn.brainfuck.tape.Tape;
 import de.fxnn.brainfuck.tape.TapeIOException;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.util.Deque;
 
 public class FullBrainfuckInstructionSet extends LoopHandlingBrainfuckInstructionSet {
 

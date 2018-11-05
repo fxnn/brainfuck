@@ -1,15 +1,17 @@
 package de.fxnn.brainfuck.program;
 
-import lombok.AllArgsConstructor;
-
 import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
-@AllArgsConstructor
 public class StringInstructionPointer extends AbstractInstructionPointer {
 
   String program;
 
   int programIndex;
+
+  public StringInstructionPointer(String program, int programIndex) {
+    this.program = program;
+    this.programIndex = programIndex;
+  }
 
   @Override
   public InstructionPointer forward() {

@@ -1,12 +1,12 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.util.Deque;
-
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.tape.Tape;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.Deque;
 
 public class LoopHandlingBrainfuckInstructionSetTest {
 

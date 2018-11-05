@@ -1,14 +1,12 @@
 package de.fxnn.brainfuck;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-
 import de.fxnn.brainfuck.interpreter.BrainfuckInterpreter;
 import de.fxnn.brainfuck.program.Program;
 import de.fxnn.brainfuck.tape.Tape;
-import lombok.Getter;
 
-@Getter
+import java.io.DataInput;
+import java.io.DataOutput;
+
 public class ProgramBuilder {
 
   private Program program;
@@ -43,4 +41,19 @@ public class ProgramBuilder {
     return new ProgramExecutor(program, new BrainfuckInterpreter(tape, input, output));
   }
 
+  public Program getProgram() {
+    return this.program;
+  }
+
+  public Tape<?> getTape() {
+    return this.tape;
+  }
+
+  public DataInput getInput() {
+    return this.input;
+  }
+
+  public DataOutput getOutput() {
+    return this.output;
+  }
 }

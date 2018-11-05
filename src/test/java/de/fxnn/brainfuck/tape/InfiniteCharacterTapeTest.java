@@ -1,18 +1,13 @@
 package de.fxnn.brainfuck.tape;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.nio.charset.Charset;
-
 import com.google.common.base.Charsets;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.*;
+import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;

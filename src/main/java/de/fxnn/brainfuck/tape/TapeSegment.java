@@ -1,8 +1,5 @@
 package de.fxnn.brainfuck.tape;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +12,9 @@ public class TapeSegment<T> {
 
   int index;
 
-  @Getter
-  @Setter
   @Nullable
   TapeSegment<T> previousSegment = null;
 
-  @Getter
-  @Setter
   @Nullable
   TapeSegment<T> nextSegment = null;
 
@@ -72,4 +65,21 @@ public class TapeSegment<T> {
     list.set(index, value);
   }
 
+  @Nullable
+  public TapeSegment<T> getPreviousSegment() {
+    return this.previousSegment;
+  }
+
+  public void setPreviousSegment(@Nullable TapeSegment<T> previousSegment) {
+    this.previousSegment = previousSegment;
+  }
+
+  @Nullable
+  public TapeSegment<T> getNextSegment() {
+    return this.nextSegment;
+  }
+
+  public void setNextSegment(@Nullable TapeSegment<T> nextSegment) {
+    this.nextSegment = nextSegment;
+  }
 }

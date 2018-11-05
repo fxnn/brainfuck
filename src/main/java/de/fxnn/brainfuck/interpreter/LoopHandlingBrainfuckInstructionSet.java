@@ -1,12 +1,10 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.util.Deque;
-
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.tape.Tape;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+import java.util.Deque;
+
 public class LoopHandlingBrainfuckInstructionSet implements BrainfuckInstructionSet {
 
   protected final Deque<InstructionPointer> instructionPointerStack;
@@ -14,6 +12,13 @@ public class LoopHandlingBrainfuckInstructionSet implements BrainfuckInstruction
   protected final Deque<LoopMode> loopModeStack;
 
   protected final Tape<?> tape;
+
+  public LoopHandlingBrainfuckInstructionSet(Deque<InstructionPointer> instructionPointerStack,
+      Deque<LoopMode> loopModeStack, Tape<?> tape) {
+    this.instructionPointerStack = instructionPointerStack;
+    this.loopModeStack = loopModeStack;
+    this.tape = tape;
+  }
 
   @Override
   public InstructionPointer startOfLoop(InstructionPointer instructionPointer) throws InterpreterException {

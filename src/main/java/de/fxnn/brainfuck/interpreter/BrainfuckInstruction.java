@@ -1,15 +1,9 @@
 package de.fxnn.brainfuck.interpreter;
 
-import java.util.Optional;
-
 import de.fxnn.brainfuck.program.InstructionPointer;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import javax.annotation.Nullable;
 
-@Getter
-@AllArgsConstructor
 public enum BrainfuckInstruction {
 
   MOVE_FORWARD('>') {
@@ -116,8 +110,11 @@ public enum BrainfuckInstruction {
     }
   };
 
-  @Getter
   private final char instructionCharacter;
+
+  BrainfuckInstruction(char instructionCharacter) {
+    this.instructionCharacter = instructionCharacter;
+  }
 
   public InstructionPointer step(InstructionPointer instructionPointer, BrainfuckInstructionSet instructionSet)
       throws InterpreterException {
@@ -137,4 +134,7 @@ public enum BrainfuckInstruction {
     return null;
   }
 
+  public char getInstructionCharacter() {
+    return this.instructionCharacter;
+  }
 }

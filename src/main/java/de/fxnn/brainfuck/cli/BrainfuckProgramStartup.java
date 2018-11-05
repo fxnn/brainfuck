@@ -1,31 +1,20 @@
 package de.fxnn.brainfuck.cli;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import de.fxnn.brainfuck.ProgramBuilder;
 import de.fxnn.brainfuck.program.EmptyProgram;
 import de.fxnn.brainfuck.program.StringProgram;
 import de.fxnn.brainfuck.tape.InfiniteCharacterTape;
+
+import javax.annotation.Nonnull;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.LinkedList;
+import java.util.List;
 
 public class BrainfuckProgramStartup implements Closeable {
 

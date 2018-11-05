@@ -1,16 +1,12 @@
 package de.fxnn.brainfuck.tape;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.IOException;
-
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.*;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;
