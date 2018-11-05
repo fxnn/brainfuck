@@ -12,15 +12,21 @@ openssl aes-256-cbc \
 gpg --fast-import $DIR/codesigning.asc
 echo
 
+PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+echo "Maven project version is '${PROJECT_VERSION}'"
+echo
+
 if [ "$TRAVIS_TAG" != "" ]; then
-    echo "Releasing version $TRAVIS_TAG"
+    echo "Releasing version '${TRAVIS_TAG}'"
     echo
-    PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     if [ "$PROJECT_VERSION" != "$TRAVIS_TAG" ]; then
-        echo "ERROR: Project version '${PROJECT_VERSION}' does not equal Travis-CI Tag '${TRAVIS_TAG}'"
+        echo "ERROR: Project version does not equal Travis-CI Tag!" >&2
         exit 1
     fi
     echo
+else if [[ "$PROJECT_VERSION" != *-SNAPSHOT ]]; then
+    echo "ERROR: Project version is no SNAPSHOT version, but no tag is being built" >&2
+    exit 1
 fi
 
 echo "Deploying to repository"
