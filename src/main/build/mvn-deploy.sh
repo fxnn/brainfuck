@@ -4,7 +4,7 @@
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-echo $(pwd)
+mvn help:evaluate -Dexpression=project.version
 echo
 
 echo "Importing GPG key"
