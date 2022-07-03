@@ -14,36 +14,33 @@ public class BrainfuckInterpreter implements Interpreter {
 
   final Deque<LoopMode> loopModeStack;
 
-  final FullBrainfuckInstructionSet fullBrainfuckInstructionSet;
+  final RegularBrainfuckInstructionSet regularBrainfuckInstructionSet;
 
-  final LoopHandlingBrainfuckInstructionSet loopHandlingBrainfuckInstructionSet;
+  final LoopBrainfuckInstructionSet loopBrainfuckInstructionSet;
 
   public BrainfuckInterpreter(Tape<?> tape, DataInput input, DataOutput output) {
     this.instructionPointerStack = new ArrayDeque<>();
     this.loopModeStack = new ArrayDeque<>();
-    fullBrainfuckInstructionSet = new FullBrainfuckInstructionSet(instructionPointerStack, loopModeStack, tape, input,
+    regularBrainfuckInstructionSet = new RegularBrainfuckInstructionSet(tape, input,
         output);
-    loopHandlingBrainfuckInstructionSet = new LoopHandlingBrainfuckInstructionSet(instructionPointerStack,
+    loopBrainfuckInstructionSet = new LoopBrainfuckInstructionSet(instructionPointerStack,
         loopModeStack, tape);
   }
 
   @Override
-  public InstructionPointer step(InstructionPointer instructionPointer) throws InterpreterException {
-    BrainfuckInstruction instruction = BrainfuckInstruction.fromCharacter(instructionPointer.getInstruction());
-
-    if (instruction != null) {
-      if (isExecuteCurrentLoopOrNoLoopPresent()) {
-        return instruction.step(instructionPointer, fullBrainfuckInstructionSet);
-      }
-
-      return instruction.step(instructionPointer, loopHandlingBrainfuckInstructionSet);
+  public InstructionPointer step(InstructionPointer instructionPointer)
+      throws InterpreterException {
+    if (isSkipLoop() || loopBrainfuckInstructionSet.isLoopInstruction(
+        instructionPointer)) {
+      return loopBrainfuckInstructionSet.step(instructionPointer);
     }
 
-    return instructionPointer.forward();
+    return regularBrainfuckInstructionSet.step(instructionPointer);
+
   }
 
-  protected boolean isExecuteCurrentLoopOrNoLoopPresent() {
-    return loopModeStack.isEmpty() || LoopMode.EXECUTED.equals(loopModeStack.getLast());
+  protected boolean isSkipLoop() {
+    return LoopMode.SKIPPED.equals(loopModeStack.peekLast());
   }
 
 }
