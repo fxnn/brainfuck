@@ -9,8 +9,7 @@ Backed by a set of common interfaces, this Brainfuck interpreter is made to inde
 
 Also note the [github.com/fxnn/brainfuck-on-genetics](https://github.com/fxnn/brainfuck-on-genetics) project implementing genetic algorithms on top of this interpreter.
 
-[![Build Status](https://travis-ci.org/fxnn/brainfuck.svg)](https://travis-ci.org/fxnn/brainfuck)
-[![Coverage Status](https://coveralls.io/repos/fxnn/brainfuck/badge.svg?branch=master)](https://coveralls.io/r/fxnn/brainfuck?branch=master)
+[![Java CI with Maven](https://github.com/fxnn/brainfuck/actions/workflows/maven.yml/badge.svg)](https://github.com/fxnn/brainfuck/actions/workflows/maven.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.fxnn/brainfuck/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.fxnn/brainfuck)
 
 ## Usage
@@ -39,15 +38,20 @@ from stdin, use "-" as program name.
 Or from your JVM program:
 
 ```java
-Runnable programExecutor = new ProgramExecutor(
-    new StringProgram(",[->+<]>."),
-    new BrainfuckInterpreter(
-        new InfiniteCharacterTape(StandardCharsets.UTF_8, TapeEofBehaviour.READS_ZERO),
-        javaIoDataInput,
-        javaIoDataOutput
-    )
-);
-programExecutor.run();
+public class BrainfuckRunner {
+  
+  public static void main(String[] args) {
+    Runnable programExecutor = new ProgramExecutor(
+        new StringProgram(",[->+<]>."),
+        new BrainfuckInterpreter(
+            new InfiniteCharacterTape(StandardCharsets.UTF_8, TapeEofBehaviour.READS_ZERO),
+            javaIoDataInput,
+            javaIoDataOutput
+        )
+    );
+    programExecutor.run();
+  }
+}
 ```
 
 Brainfuck can be found in Maven Central.
@@ -56,7 +60,7 @@ Brainfuck can be found in Maven Central.
 <dependency>
   <groupId>de.fxnn</groupId>
   <artifactId>brainfuck</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
