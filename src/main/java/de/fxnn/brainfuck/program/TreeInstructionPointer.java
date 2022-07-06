@@ -1,6 +1,7 @@
 package de.fxnn.brainfuck.program;
 
 import java.util.List;
+import java.util.Objects;
 
 import static de.fxnn.brainfuck.program.InvalidInstructionPointer.invalidInstructionPointer;
 
@@ -57,5 +58,24 @@ public class TreeInstructionPointer extends AbstractInstructionPointer {
     } catch (IndexOutOfBoundsException ex) {
       return invalidInstructionPointer();
     }
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    TreeInstructionPointer that = (TreeInstructionPointer) o;
+    return childProgramIndex == that.childProgramIndex && Objects.equals(childPrograms,
+        that.childPrograms) && Objects.equals(childInstructionPointer,
+        that.childInstructionPointer);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(childPrograms, childProgramIndex, childInstructionPointer);
   }
 }

@@ -5,15 +5,21 @@ import de.fxnn.brainfuck.program.StringInstructionPointer;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TddBrainfuckInstructionSetTest {
 
+  private StringWriter output;
+
+  @Before
+  public void setup() {
+    output = new StringWriter();
+  }
+
   @Test
   public void step__unknownInstruction__forward() throws InterpreterException {
-    var underTest = new TddBrainfuckInstructionSet(
-        new PrintWriter(new StringWriter()));
-    var result = underTest.step(
+    var result = createUnderTest().step(
         new StringInstructionPointer("x", 0));
     Assert.assertTrue(result.isEndOfProgram());
   }
@@ -22,7 +28,7 @@ public class TddBrainfuckInstructionSetTest {
   public void step__beginOfTestWithoutLabel__throws() {
     try {
       var instructionPointer = new StringInstructionPointer("{", 0);
-      new TddBrainfuckInstructionSet(new PrintWriter(new StringWriter())).step(instructionPointer);
+      createUnderTest().step(instructionPointer);
       Assert.fail();
     } catch (InterpreterException ex) {
       Assert.assertEquals("'{' without preceding '#' instruction",
@@ -34,7 +40,7 @@ public class TddBrainfuckInstructionSetTest {
   public void step__endOfTestWithoutBeginOfTest__throws() {
     try {
       var instructionPointer = new StringInstructionPointer("}", 0);
-      new TddBrainfuckInstructionSet(new PrintWriter(new StringWriter())).step(instructionPointer);
+      createUnderTest().step(instructionPointer);
       Assert.fail();
     } catch (InterpreterException ex) {
       Assert.assertEquals("'}' without preceding '{' instruction",
@@ -44,20 +50,43 @@ public class TddBrainfuckInstructionSetTest {
 
   @Test
   public void step__labelBeginEnd__passes() throws InterpreterException {
-    var output = new StringWriter();
-    var underTest = new TddBrainfuckInstructionSet(new PrintWriter(output));
-    underTest.step(
-        underTest.step(underTest.step(new StringInstructionPointer("#{}", 0))));
-    Assert.assertEquals("PASSED\n", output.toString());
+    var underTest = createUnderTest();
+    stepUntilEndOfProgram(underTest, "#{}");
+    Assert.assertEquals("PASSED #\n", output.toString());
+  }
+
+  @Test
+  public void step__labelWithLongName__cutTo20Characters() throws InterpreterException {
+    var underTest = createUnderTest();
+    stepUntilEndOfProgram(underTest, "#234567890123456789012345{}");
+    Assert.assertEquals("PASSED #2345678901234567890\n", output.toString());
+  }
+
+  @Test
+  public void step__labelWithMultipleHashChars__allIncluded() throws InterpreterException {
+    var underTest = createUnderTest();
+    stepUntilEndOfProgram(underTest, "### this is my test{}");
+    Assert.assertEquals("PASSED ### this is my test\n", output.toString());
   }
 
   @Test
   public void step__labelBeginEnd__forward() throws InterpreterException {
-    var output = new StringWriter();
-    var underTest = new TddBrainfuckInstructionSet(new PrintWriter(output));
+    var underTest = createUnderTest();
     var result = underTest.step(
         underTest.step(underTest.step(new StringInstructionPointer("#{}", 0))));
     Assert.assertTrue(result.isEndOfProgram());
+  }
+
+  private void stepUntilEndOfProgram(TddBrainfuckInstructionSet underTest,
+      String stringProgram) throws InterpreterException {
+    InstructionPointer instructionPointer = new StringInstructionPointer(stringProgram, 0);
+    while (!instructionPointer.isEndOfProgram()) {
+      instructionPointer = underTest.step(instructionPointer);
+    }
+  }
+
+  private TddBrainfuckInstructionSet createUnderTest() {
+    return new TddBrainfuckInstructionSet(new PrintWriter(output));
   }
 
 }

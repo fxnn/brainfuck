@@ -30,8 +30,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <application.mainClass>de.fxnn.brainfuck.cli.BrainfuckApplication</application.mainClass>
     </properties>
 
@@ -92,7 +90,11 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>18</release>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-help-plugin</artifactId>
