@@ -45,7 +45,7 @@ public class TddBrainfuckInstructionSetTest {
       createUnderTest().step(instructionPointer);
       Assert.fail();
     } catch (InterpreterException ex) {
-      Assert.assertEquals("'}' without preceding '{' instruction",
+      Assert.assertEquals("Unexpected instruction '}' (in state 'NoLabelSeen[]')",
           ex.getMessage());
     }
   }
@@ -55,6 +55,13 @@ public class TddBrainfuckInstructionSetTest {
     var underTest = createUnderTest();
     stepUntilEndOfProgram(underTest, "#{}");
     Assert.assertEquals("PASSED #\n", output.toString());
+  }
+
+  @Test
+  public void step__labelAndTwoTests__passesTwoTimes() throws InterpreterException {
+    var underTest = createUnderTest();
+    stepUntilEndOfProgram(underTest, "#{}{}");
+    Assert.assertEquals("PASSED #\nPASSED #\n", output.toString());
   }
 
   @Test
