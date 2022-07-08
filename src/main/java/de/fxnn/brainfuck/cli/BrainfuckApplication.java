@@ -91,7 +91,7 @@ public class BrainfuckApplication implements Runnable {
       return Charset.forName(optionValue);
 
     } catch (IllegalCharsetNameException ex) {
-      throw new ProgramStartupException("That is no legal charset name: " + ex.getCharsetName());
+      throw new ProgramStartupException("That is no legal charset labelName: " + ex.getCharsetName());
 
     } catch (UnsupportedCharsetException ex) {
       throw new ProgramStartupException("This charset is not supported on this JVM: " + ex.getCharsetName());
@@ -128,7 +128,7 @@ public class BrainfuckApplication implements Runnable {
     String header = APPLICATION_URL;
     String footer = "By default, program names are paths to files containing programs. "
         + "Programs are executed sequentially on different tapes. "
-        + "To read a single program from stdin, use \"-\" as program name.";
+        + "To read a single program from stdin, use \"-\" as program labelName.";
     String usage = getExecutableName() + " [options] program1 [program2 [...]]";
 
     helpFormatter

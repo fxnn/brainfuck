@@ -33,7 +33,7 @@ public class TddBrainfuckInstructionSetTest {
       createUnderTest().step(instructionPointer);
       Assert.fail();
     } catch (InterpreterException ex) {
-      Assert.assertEquals("'{' without preceding '#' instruction",
+      Assert.assertEquals("Unexpected instruction '{' (in state 'NoLabelSeen[]')",
           ex.getMessage());
     }
   }

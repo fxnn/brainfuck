@@ -2,18 +2,17 @@ package de.fxnn.brainfuck.interpreter.tdd;
 
 import de.fxnn.brainfuck.interpreter.InstructionSet;
 import de.fxnn.brainfuck.interpreter.InterpreterException;
-import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.Known;
-import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.NoneYet;
-import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.StartOfLabelKnown;
+import de.fxnn.brainfuck.interpreter.tdd.State.LabelKnown;
+import de.fxnn.brainfuck.interpreter.tdd.State.NoLabelSeen;
+import de.fxnn.brainfuck.interpreter.tdd.State.StartOfLabelKnown;
+import de.fxnn.brainfuck.interpreter.tdd.State.WithinTest;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import java.io.PrintWriter;
 
 class TddBrainfuckInstructionSet implements InstructionSet {
 
   private final PrintWriter output;
-  private MostRecentLabel mostRecentLabel = new MostRecentLabel.NoneYet();
-  private boolean withinTest = false;
-  private InstructionPointer lastInstructionPointer;
+  private State state = new NoLabelSeen();
 
   public TddBrainfuckInstructionSet(PrintWriter output) {
     this.output = output;
@@ -25,38 +24,47 @@ class TddBrainfuckInstructionSet implements InstructionSet {
       case '#' -> findingLabel(instructionPointer);
       case '{' -> enteringTest(instructionPointer);
       case '}' -> leavingTest();
-    };
-    lastInstructionPointer = instructionPointer;
+    }
+    ;
     return instructionPointer.forward();
   }
 
   private void leavingTest() throws InterpreterException {
-    if (!withinTest || !(mostRecentLabel instanceof Known knownLabel)) {
+    if (!(state instanceof WithinTest s)) {
       throw new InterpreterException("'}' without preceding '{' instruction");
     }
-    withinTest = false;
-    output.println("PASSED " + knownLabel.name());
+    output.println("PASSED " + s.labelName());
   }
 
   private void enteringTest(InstructionPointer instructionPointer) throws InterpreterException {
-    switch (mostRecentLabel) {
-      case NoneYet ignored ->
-          throw new InterpreterException("'{' without preceding '#' instruction");
+    switch (state) {
       case StartOfLabelKnown l -> {
-        var name = extractName(l.startPointer(), instructionPointer);
-        mostRecentLabel = new Known(name, l.startPointer());
+        var name = extractName(l.labelPointer(), instructionPointer);
+        state = new WithinTest(name, l.labelPointer());
       }
-      case Known ignored -> {
-        // nothing to do
-      }
+      case LabelKnown l -> state = new WithinTest(l.labelName(), l.labelPointer());
+      default -> throw new InterpreterException(
+          "Unexpected instruction '" + instructionPointer.getInstruction() + "' (in state '" + state
+              + "')");
     }
-    withinTest = true;
   }
 
   private void findingLabel(InstructionPointer instructionPointer) {
-    if (lastInstructionPointer == null || lastInstructionPointer.getInstruction() != '#') {
-      mostRecentLabel = new StartOfLabelKnown(instructionPointer);
+    if (!(state instanceof StartOfLabelKnown startOfLabel) || !isSameLabel(
+        startOfLabel.labelPointer(), instructionPointer)) {
+      state = new StartOfLabelKnown(instructionPointer);
     }
+  }
+
+  private boolean isSameLabel(InstructionPointer startPointer, InstructionPointer endPointer) {
+    InstructionPointer currentPointer = startPointer;
+    while (!currentPointer.isEndOfProgram() && currentPointer.getInstruction() == '#') {
+      if (endPointer.equals(currentPointer)) {
+        return true;
+      }
+      currentPointer = currentPointer.forward();
+    }
+    return false;
   }
 
   private String extractName(InstructionPointer start, InstructionPointer max) {
