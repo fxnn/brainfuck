@@ -1,8 +1,10 @@
-package de.fxnn.brainfuck.interpreter;
+package de.fxnn.brainfuck.interpreter.tdd;
 
-import de.fxnn.brainfuck.interpreter.MostRecentLabel.Known;
-import de.fxnn.brainfuck.interpreter.MostRecentLabel.NoneYet;
-import de.fxnn.brainfuck.interpreter.MostRecentLabel.StartOfLabelKnown;
+import de.fxnn.brainfuck.interpreter.InstructionSet;
+import de.fxnn.brainfuck.interpreter.InterpreterException;
+import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.Known;
+import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.NoneYet;
+import de.fxnn.brainfuck.interpreter.tdd.MostRecentLabel.StartOfLabelKnown;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import java.io.PrintWriter;
 

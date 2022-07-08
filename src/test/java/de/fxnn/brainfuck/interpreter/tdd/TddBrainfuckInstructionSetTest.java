@@ -1,11 +1,13 @@
-package de.fxnn.brainfuck.interpreter;
+package de.fxnn.brainfuck.interpreter.tdd;
 
+import de.fxnn.brainfuck.interpreter.InterpreterException;
 import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.program.StringInstructionPointer;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TddBrainfuckInstructionSetTest {
@@ -75,6 +77,14 @@ public class TddBrainfuckInstructionSetTest {
     var result = underTest.step(
         underTest.step(underTest.step(new StringInstructionPointer("#{}", 0))));
     Assert.assertTrue(result.isEndOfProgram());
+  }
+
+  @Ignore
+  @Test
+  public void step__tapeOutputDiffersFromInput__failed() throws InterpreterException {
+    var underTest = createUnderTest();
+    stepUntilEndOfProgram(underTest, "#{0~1}");
+    Assert.assertEquals("FAILED #\n", output.toString());
   }
 
   private void stepUntilEndOfProgram(TddBrainfuckInstructionSet underTest,

@@ -1,4 +1,4 @@
-package de.fxnn.brainfuck.interpreter;
+package de.fxnn.brainfuck.interpreter.tdd;
 
 import de.fxnn.brainfuck.program.InstructionPointer;
 
