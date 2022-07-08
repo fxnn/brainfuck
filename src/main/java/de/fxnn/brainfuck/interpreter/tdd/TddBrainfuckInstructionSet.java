@@ -21,40 +21,42 @@ class TddBrainfuckInstructionSet implements InstructionSet {
 
   public InstructionPointer step(InstructionPointer instructionPointer)
       throws InterpreterException {
-    var nextInstructionPointer = switch (instructionPointer.getInstruction()) {
-      case '#' -> {
-        if (lastInstructionPointer == null || lastInstructionPointer.getInstruction() != '#') {
-          mostRecentLabel = new StartOfLabelKnown(instructionPointer);
-        }
-        yield instructionPointer.forward();
-      }
-      case '{' -> {
-        switch (mostRecentLabel) {
-          case NoneYet ignored ->
-              throw new InterpreterException("'{' without preceding '#' instruction");
-          case StartOfLabelKnown l -> {
-            var name = extractName(l.startPointer(), instructionPointer);
-            mostRecentLabel = new Known(name, l.startPointer());
-          }
-          case Known ignored -> {
-            // nothing to do
-          }
-        }
-        withinTest = true;
-        yield instructionPointer.forward();
-      }
-      case '}' -> {
-        if (withinTest && mostRecentLabel instanceof Known knownLabel) {
-          withinTest = false;
-          output.println("PASSED " + knownLabel.name());
-          yield instructionPointer.forward();
-        }
-        throw new InterpreterException("'}' without preceding '{' instruction");
-      }
-      default -> instructionPointer.forward();
+    switch (instructionPointer.getInstruction()) {
+      case '#' -> findingLabel(instructionPointer);
+      case '{' -> enteringTest(instructionPointer);
+      case '}' -> leavingTest();
     };
     lastInstructionPointer = instructionPointer;
-    return nextInstructionPointer;
+    return instructionPointer.forward();
+  }
+
+  private void leavingTest() throws InterpreterException {
+    if (!withinTest || !(mostRecentLabel instanceof Known knownLabel)) {
+      throw new InterpreterException("'}' without preceding '{' instruction");
+    }
+    withinTest = false;
+    output.println("PASSED " + knownLabel.name());
+  }
+
+  private void enteringTest(InstructionPointer instructionPointer) throws InterpreterException {
+    switch (mostRecentLabel) {
+      case NoneYet ignored ->
+          throw new InterpreterException("'{' without preceding '#' instruction");
+      case StartOfLabelKnown l -> {
+        var name = extractName(l.startPointer(), instructionPointer);
+        mostRecentLabel = new Known(name, l.startPointer());
+      }
+      case Known ignored -> {
+        // nothing to do
+      }
+    }
+    withinTest = true;
+  }
+
+  private void findingLabel(InstructionPointer instructionPointer) {
+    if (lastInstructionPointer == null || lastInstructionPointer.getInstruction() != '#') {
+      mostRecentLabel = new StartOfLabelKnown(instructionPointer);
+    }
   }
 
   private String extractName(InstructionPointer start, InstructionPointer max) {
