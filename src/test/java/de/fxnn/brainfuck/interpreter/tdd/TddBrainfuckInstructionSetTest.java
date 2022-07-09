@@ -39,18 +39,6 @@ public class TddBrainfuckInstructionSetTest {
   }
 
   @Test
-  public void step__endOfTestWithoutBeginOfTest__throws() {
-    try {
-      var instructionPointer = new StringInstructionPointer("}", 0);
-      createUnderTest().step(instructionPointer);
-      Assert.fail();
-    } catch (InterpreterException ex) {
-      Assert.assertEquals("Unexpected instruction '}' (in state 'NoLabelSeen[]')",
-          ex.getMessage());
-    }
-  }
-
-  @Test
   public void step__labelBeginEnd__passes() throws InterpreterException {
     var underTest = createUnderTest();
     stepUntilEndOfProgram(underTest, "#{}");

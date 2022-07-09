@@ -71,6 +71,15 @@ sealed interface State {
 
   }
 
+  default boolean isOutsideTest() {
+    return this instanceof NoLabelSeen || this instanceof StartOfLabelKnown
+        || this instanceof LabelKnown;
+  }
+
+  default boolean isWithinTest() {
+    return this instanceof WithinTest;
+  }
+
   default State findingLabel(InstructionPointer instructionPointer) throws InterpreterException {
     throw new UnexpectedInstructionException(instructionPointer.getInstruction(), this);
   }
