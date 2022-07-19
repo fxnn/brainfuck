@@ -5,6 +5,7 @@ import de.fxnn.brainfuck.program.InstructionPointer;
 import de.fxnn.brainfuck.program.StringInstructionPointer;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,8 +34,7 @@ public class TddBrainfuckInstructionSetTest {
       createUnderTest().step(instructionPointer);
       Assert.fail();
     } catch (InterpreterException ex) {
-      Assert.assertEquals("Unexpected instruction '{' (in state 'NoLabelSeen[]')",
-          ex.getMessage());
+      Assertions.assertThat(ex).hasMessageContaining("Unexpected instruction '{' (in state 'NoLabelSeen[");
     }
   }
 
@@ -74,7 +74,6 @@ public class TddBrainfuckInstructionSetTest {
     Assert.assertTrue(result.isEndOfProgram());
   }
 
-  @Ignore
   @Test
   public void step__tapeOutputDiffersFromInput__failed() throws InterpreterException {
     var underTest = createUnderTest();

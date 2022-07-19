@@ -4,14 +4,22 @@ import javax.annotation.Nonnull;
 
 public abstract class AbstractInfiniteTape<T> implements Tape<T> {
 
+  private TapeSegment<T> initialSegment;
+
   private TapeSegment<T> currentSegment;
 
   public AbstractInfiniteTape() {
-    currentSegment = createSegment();
+    initialSegment = createSegment();
+    currentSegment = initialSegment;
   }
 
   @Override
-  public void moveForward() throws OutOfTapeBoundsException {
+  public void rewind() {
+    this.currentSegment = this.initialSegment.atBeginning();
+  }
+
+  @Override
+  public void moveForward() {
     try {
       currentSegment.moveForward();
     } catch (OutOfTapeBoundsException ex) {
@@ -46,7 +54,7 @@ public abstract class AbstractInfiniteTape<T> implements Tape<T> {
   }
 
   public TapeSegment<T> getOrCreatePreviousSegment() {
-    TapeSegment<T> previousSegment = createSegment().getPreviousSegment();
+    TapeSegment<T> previousSegment = currentSegment.getPreviousSegment();
     if (previousSegment != null) {
       return previousSegment;
     }

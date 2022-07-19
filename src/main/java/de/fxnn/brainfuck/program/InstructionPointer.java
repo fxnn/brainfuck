@@ -8,4 +8,8 @@ public interface InstructionPointer {
 
   boolean isEndOfProgram();
 
+  default boolean isInstructionWithin(char low, char high) {
+    return low <= getInstruction() && getInstruction() <= high;
+  }
+
 }

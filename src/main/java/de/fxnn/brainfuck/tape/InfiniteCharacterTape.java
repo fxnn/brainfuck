@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
+import javax.annotation.Nonnull;
 
 import static de.fxnn.util.UnicodeBuffers.*;
 
@@ -118,9 +119,9 @@ public class InfiniteCharacterTape extends AbstractInfiniteTape<Integer> {
       charsetDecoder.reset();
 
       ByteBuffer writeBuffer = ByteBuffer.allocate(4);
-      CharBuffer charBuffer = (CharBuffer) CharBuffer.allocate(4).flip();
+      CharBuffer charBuffer = CharBuffer.allocate(4).flip();
 
-      while (!getFirstCodePoint(charBuffer).isPresent()) {
+      while (getFirstCodePoint(charBuffer).isEmpty()) {
         writeBuffer.put(input.readByte());
 
         // HINT: wrap all bytes read so far into this new buffer
@@ -144,6 +145,16 @@ public class InfiniteCharacterTape extends AbstractInfiniteTape<Integer> {
     } catch (IOException ex) {
       throw new TapeIOException("I/O error while reading from input [" + input + "] to tape: " + ex.getMessage(), ex);
     }
+  }
+
+  @Override
+  public void writeInteger(@Nonnull Integer value) {
+    write(value);
+  }
+
+  @Override
+  public Integer readInteger() {
+    return read();
   }
 
   @Override

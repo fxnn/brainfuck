@@ -2,8 +2,11 @@ package de.fxnn.brainfuck.tape;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import javax.annotation.Nonnull;
 
 public interface Tape<T> {
+
+  void rewind();
 
   void moveForward() throws OutOfTapeBoundsException;
 
@@ -19,4 +22,7 @@ public interface Tape<T> {
 
   boolean isZero();
 
+  void writeInteger(@Nonnull Integer value);
+
+  Integer readInteger();
 }

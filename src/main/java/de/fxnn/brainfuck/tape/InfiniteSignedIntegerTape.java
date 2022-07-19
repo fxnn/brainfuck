@@ -4,6 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.EOFException;
 import java.io.IOException;
+import javax.annotation.Nonnull;
 
 /**
  * Input and output are done in terms of four byte (aka 32 bit) signed integer values.
@@ -55,6 +56,16 @@ public class InfiniteSignedIntegerTape extends AbstractInfiniteTape<Integer> {
     } catch (IOException ex) {
       throw new TapeIOException("I/O error while reading from input [" + input + "] to tape: " + ex.getMessage(), ex);
     }
+  }
+
+  @Override
+  public void writeInteger(@Nonnull Integer value) {
+    write(value);
+  }
+
+  @Override
+  public Integer readInteger() {
+    return read();
   }
 
   @Override
